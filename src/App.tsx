@@ -1,13 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import './styles/App.css';
+import "./styles/App.css";
+import AppRouter from "./AppRouter";
 
-function App() {
+export default function App() {
   return (
     <div className="App">
-      <p>Hello Frog!</p>
+      <AppRouter />
     </div>
   );
 }
-
-export default App;
