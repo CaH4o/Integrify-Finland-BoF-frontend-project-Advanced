@@ -4,7 +4,9 @@ import { tProduct } from "../../types/tProduct";
 import { useAppSelector } from "../../hooks/reduxHooks";
 
 export default function HomeBody() {
-  const products: tProduct[] = useAppSelector((state) => state.products.products);
+  const products: tProduct[] = useAppSelector(
+    (state) => state.products.products
+  );
 
   return (
     <div>
@@ -12,9 +14,11 @@ export default function HomeBody() {
         {!products.length ? (
           <p>HomeBody</p>
         ) : (
-          products.map((p) => {
-            return <p>{p.title}</p>;
-          })
+          <ul>
+            {products.map((p) => {
+              return <li key={p.id}>{p.title}</li>;
+            })}
+          </ul>
         )}
       </>
     </div>

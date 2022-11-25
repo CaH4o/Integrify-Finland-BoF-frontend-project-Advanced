@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 
 import Footer from "../component/Footer";
 import HomeBody from "../component/home/HomeBody";
-import NavBar from "../component/NavBar";
+import Header from "../component/Header";
 import { useAppDispatch } from "../hooks/reduxHooks";
-import { fetchProducts } from "../redux/reducers/Products";
+import { fetchProducts } from "../redux/reducers/products";
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <NavBar />
+      <Header />
       <HomeBody />
       <Footer />
     </div>

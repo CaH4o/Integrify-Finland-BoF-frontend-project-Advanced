@@ -33,7 +33,7 @@ export default function AppRouter() {
       },
     ],
     {
-      basename: "/oti_v1",
+      basename: "", //oti_v1
     }
   );
 

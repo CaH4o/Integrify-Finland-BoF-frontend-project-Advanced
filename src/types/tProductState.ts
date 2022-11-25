@@ -1,6 +1,6 @@
 import { tProduct } from "./tProduct";
 
-export type tReducerProducts = {
+export type tProductState = {
     products: tProduct[];
     loading: boolean;
     error: boolean;

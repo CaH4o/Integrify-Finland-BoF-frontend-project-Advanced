@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { tProduct } from "../../types/tProduct";
-import { tReducerProducts } from "../../types/tReducerProducts";
+import { tProductState } from "../../types/tProductState";
 import { useFetch } from "../../hooks/useFetch";
 
-const initialState: tReducerProducts = {
+const initialState: tProductState = {
   products: [],
   loading: false,
   error: false,
@@ -18,15 +18,15 @@ const productsSlicer = createSlice({
     build
       .addCase(
         fetchProducts.fulfilled,
-        (state: tReducerProducts, action: PayloadAction<tProduct[]>) => {
+        (state: tProductState, action: PayloadAction<tProduct[]>) => {
           state.products = action.payload;
           state.loading = false;
         }
       )
-      .addCase(fetchProducts.pending, (state: tReducerProducts) => {
+      .addCase(fetchProducts.pending, (state: tProductState) => {
         state.loading = true;
       })
-      .addCase(fetchProducts.rejected, (state: tReducerProducts) => {
+      .addCase(fetchProducts.rejected, (state: tProductState) => {
         state.loading = false;
         state.error = true;
       });

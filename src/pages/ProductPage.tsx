@@ -1,13 +1,13 @@
 import React from "react";
 
 import Footer from "../component/Footer";
-import NavBar from "../component/NavBar";
+import Header from "../component/Header";
 import ProductBody from "../component/product/ProductBody";
 
 export default function ProductPage(): JSX.Element {
   return (
     <div>
-      <NavBar />
+      <Header />
       <ProductBody />
       <Footer />
     </div>
