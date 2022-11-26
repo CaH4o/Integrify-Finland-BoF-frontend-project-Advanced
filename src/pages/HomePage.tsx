@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 
-import Footer from "../component/Footer";
+import Footer from "../component/footer/Footer";
 import HomeBody from "../component/home/HomeBody";
-import Header from "../component/Header";
+import Header from "../component/header/Header";
 import { useAppDispatch } from "../hooks/reduxHooks";
 import { fetchProducts } from "../redux/reducers/products";
 

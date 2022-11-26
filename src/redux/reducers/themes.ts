@@ -7,6 +7,7 @@ const initialState: tThemeState = {
     mode: "light",
     primary: { main: "#D0B8A8" },
     secondary: { main: "#F8EDE3" },
+    divider: "#DFD3C3",
     text: {
       primary: "#7D6E83",
       secondary: "#7D6E83",
@@ -17,6 +18,7 @@ const initialState: tThemeState = {
     mode: "dark",
     primary: { main: "#9F73AB" },
     secondary: { main: "#3F3B6C" },
+    divider: "#624F82",
     text: {
       primary: "#A3C7D6",
       secondary: "#A3C7D6",

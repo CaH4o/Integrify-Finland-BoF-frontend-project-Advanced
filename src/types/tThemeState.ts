@@ -1,6 +1,6 @@
 import { PaletteMode } from "@mui/material";
 
-type tPlate = {
+type tPalette = {
   mode: PaletteMode;
   primary: {
     main: string;
@@ -8,6 +8,7 @@ type tPlate = {
   secondary: {
     main: string;
   };
+  divider: string;
   text: {
     primary: string;
     secondary: string;
@@ -16,7 +17,7 @@ type tPlate = {
 };
 
 export interface tThemeState {
-  light: tPlate;
-  dark: tPlate;
+  light: tPalette;
+  dark: tPalette;
   mode: PaletteMode;
 }

@@ -6,7 +6,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ProductPage from "./pages/ProductPage";
 import ErrorPage from "./pages/ErrorPage";
 
-export default function AppRouter() {
+export default function AppRouter(): JSX.Element {
   const router = createBrowserRouter(
     [
       {
@@ -37,9 +37,5 @@ export default function AppRouter() {
     }
   );
 
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }

@@ -1,8 +1,8 @@
 import React from "react";
 
 import CartBody from "../component/cart/CartBody";
-import Footer from "../component/Footer";
-import Header from "../component/Header";
+import Footer from "../component/footer/Footer";
+import Header from "../component/header/Header";
 
 export default function CartPage(): JSX.Element {
   return (

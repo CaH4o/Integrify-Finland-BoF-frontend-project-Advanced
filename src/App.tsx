@@ -7,7 +7,7 @@ import { useAppSelector } from "./hooks/reduxHooks";
 import { RootState } from "./redux/store";
 import { tThemeState } from "./types/tThemeState";
 
-export default function App() {
+export default function App(): JSX.Element {
   const themes: tThemeState = useAppSelector(
     (state: RootState) => state.themes
   );
@@ -18,10 +18,17 @@ export default function App() {
   });
 
   return (
-    <Box className="App">
+    <div className="App">
       <ThemeProvider theme={theme}>
-        <AppRouter />
+        <Box
+          sx={{
+            bgcolor: "background.default",
+            height: "100%",
+          }}
+        >
+          <AppRouter />
+        </Box>
       </ThemeProvider>
-    </Box>
+    </div>
   );
 }

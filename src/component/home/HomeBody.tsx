@@ -1,26 +1,12 @@
 import React from "react";
 
-import { tProduct } from "../../types/tProduct";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import HomeCardHolder from "./HomeCardHolder";
 
-export default function HomeBody() {
-  const products: tProduct[] = useAppSelector(
-    (state) => state.products.products
-  );
-
+export default function HomeBody(): JSX.Element {
   return (
     <div>
-      <>
-        {!products.length ? (
-          <p>HomeBody</p>
-        ) : (
-          <ul>
-            {products.map((p) => {
-              return <li key={p.id}>{p.title}</li>;
-            })}
-          </ul>
-        )}
-      </>
+      <p>HomeBody</p>
+      <HomeCardHolder />
     </div>
   );
 }
