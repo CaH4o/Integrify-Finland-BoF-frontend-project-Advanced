@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { tThemeState } from "../../types/tThemeState";
+import { IThemeState } from "../../types/IThemeState";
 
-const initialState: tThemeState = {
+const initialState: IThemeState = {
   light: {
     mode: "light",
     primary: { main: "#D0B8A8" },
@@ -32,7 +32,7 @@ const themesSlicer = createSlice({
   name: "themes",
   initialState,
   reducers: {
-    toggleColorMode: function (state: tThemeState) {
+    toggleColorMode: function (state: IThemeState) {
       state.mode = state.mode === "light" ? "dark" : "light";
     },
   },

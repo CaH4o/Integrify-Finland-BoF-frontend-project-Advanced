@@ -16,7 +16,7 @@ type tPalette = {
   background: { default: string };
 };
 
-export interface tThemeState {
+export interface IThemeState {
   light: tPalette;
   dark: tPalette;
   mode: PaletteMode;

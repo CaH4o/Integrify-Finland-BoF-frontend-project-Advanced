@@ -11,13 +11,24 @@ import {
   CardActions,
 } from "@mui/material";
 
-import { tProduct } from "../../types/tProduct";
+import { IPHomeCard } from "../../types/props/IPHomeCard";
+import { IProduct } from "../../types/IProduct";
 
-export default function HomeCart({
-  product,
-}: {
-  product: tProduct;
-}): JSX.Element {
+export default function HomeCard(params: IPHomeCard): JSX.Element {
+  const product: IProduct = params.product;
+
+  function imgHendler(
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+    src: string[]
+  ) {
+    const imgSrc: string = e.currentTarget.src;
+    let index: number = src.findIndex((src) => src === imgSrc);
+    if (index === -1) return;
+    e.currentTarget.src = src[++index]
+      ? product.images[index]
+      : product.images[0];
+  }
+
   return (
     <Card
       sx={{
@@ -43,10 +54,16 @@ export default function HomeCart({
           height="140"
           image={product.images[0]}
           alt={product.title}
+          onClick={(e) => {
+            imgHendler(e, product.images);
+          }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {product.price}
+            {new Intl.NumberFormat("fi", {
+              style: "currency",
+              currency: "EUR",
+            }).format(product.price)}
           </Typography>
           <Typography
             variant="body2"
@@ -59,7 +76,7 @@ export default function HomeCart({
         </CardContent>
       </Box>
       <CardActions>
-        <Button size="large">Add to busket</Button>
+        <Button size="large">Add to cart</Button>
         <Button size="large">Discription</Button>
       </CardActions>
     </Card>

@@ -1,6 +1,6 @@
 import { useRouteError, isRouteErrorResponse } from "react-router-dom";
 
-import { tError } from "../types/tError";
+import { IError } from "../types/IError";
 
 export default function ErrorPage(): JSX.Element {
   const error: unknown = useRouteError();
@@ -21,7 +21,7 @@ export default function ErrorPage(): JSX.Element {
         ? error.message
         : isRouteErrorResponse(error)
         ? error.statusText
-        : (error as tError).statusText}
+        : (error as IError).statusText}
     </div>
   );
 }

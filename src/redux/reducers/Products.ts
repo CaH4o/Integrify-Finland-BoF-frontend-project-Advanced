@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
-import { tProduct } from "../../types/tProduct";
-import { tProductState } from "../../types/tProductState";
+import { IProduct } from "../../types/IProduct";
+import { IProductState } from "../../types/IProductState";
 import { useFetch } from "../../hooks/useFetch";
 
-const initialState: tProductState = {
+const initialState: IProductState = {
   products: [],
   loading: false,
   error: false,
@@ -18,15 +19,15 @@ const productsSlicer = createSlice({
     build
       .addCase(
         fetchProducts.fulfilled,
-        (state: tProductState, action: PayloadAction<tProduct[]>) => {
+        (state: IProductState, action: PayloadAction<IProduct[]>) => {
           state.products = action.payload;
           state.loading = false;
         }
       )
-      .addCase(fetchProducts.pending, (state: tProductState) => {
+      .addCase(fetchProducts.pending, (state: IProductState) => {
         state.loading = true;
       })
-      .addCase(fetchProducts.rejected, (state: tProductState) => {
+      .addCase(fetchProducts.rejected, (state: IProductState) => {
         state.loading = false;
         state.error = true;
       });
@@ -36,9 +37,11 @@ const productsSlicer = createSlice({
 export const fetchProducts = createAsyncThunk(
   "feachProducts",
   async function (url: string) {
-    return await useFetch<tProduct[]>(url);
+    return await useFetch<IProduct[]>(url);
   }
 );
+
+
 
 const productsReducer = productsSlicer.reducer;
 //export const {} = productsSlicer.actions;

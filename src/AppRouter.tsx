@@ -11,25 +11,25 @@ export default function AppRouter(): JSX.Element {
     [
       {
         path: "/",
-        element: <HomePage />,
         errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            path: "product/:id",
+            element: <ProductPage />,
+          },
+        ],
       },
       {
         path: "/profile",
         element: <ProfilePage />,
       },
       {
-        path: "/product",
-        children: [
-          {
-            path: "",
-            element: <ProductPage />,
-          },
-          {
-            path: ":id",
-            element: <CartPage />,
-          },
-        ],
+        path: "/cart",
+        element: <CartPage />,
       },
     ],
     {

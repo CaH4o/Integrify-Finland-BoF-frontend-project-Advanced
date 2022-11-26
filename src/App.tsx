@@ -5,10 +5,10 @@ import "./styles/App.css";
 import AppRouter from "./AppRouter";
 import { useAppSelector } from "./hooks/reduxHooks";
 import { RootState } from "./redux/store";
-import { tThemeState } from "./types/tThemeState";
+import { IThemeState } from "./types/IThemeState";
 
 export default function App(): JSX.Element {
-  const themes: tThemeState = useAppSelector(
+  const themes: IThemeState = useAppSelector(
     (state: RootState) => state.themes
   );
   const theme: Theme = createTheme({
