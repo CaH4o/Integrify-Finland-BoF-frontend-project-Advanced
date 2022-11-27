@@ -4,13 +4,13 @@ import Footer from "../component/footer/Footer";
 import HomeBody from "../component/home/HomeBody";
 import Header from "../component/header/Header";
 import { useAppDispatch } from "../hooks/reduxHooks";
-import { fetchProducts } from "../redux/reducers/products";
+import { productsGet } from "../api/apiWorker";
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
 
   useEffect(function () {
-    dispatch(fetchProducts("https://api.escuelajs.co/api/v1/products"));
+    dispatch(productsGet("https://api.escuelajs.co/api/v1/products"));
   }, []);
 
   return (
