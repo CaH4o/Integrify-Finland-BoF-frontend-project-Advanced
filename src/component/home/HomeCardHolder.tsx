@@ -1,4 +1,3 @@
-import React from "react";
 import { Grid } from "@mui/material";
 
 import { IProduct } from "../../types/IProduct";
@@ -9,6 +8,7 @@ export default function HomeCardHolder(): JSX.Element {
   const products: IProduct[] = useAppSelector(
     (state) => state.products.products
   );
+
   return (
     <>
       {!products.length ? (

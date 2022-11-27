@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import HeaderThemeToggle from "./HeaderThemeToggle";
 import HeaderSearch from "./HeaderSearch";
 import HeaderMenu from "./HeaderMenu";
-import HeaderSortByPrice from "./HeaderSortByPrice";
 
 export default function Header(): JSX.Element {
   return (
@@ -37,7 +36,6 @@ export default function Header(): JSX.Element {
             E-commerce website
           </Typography>
           <HeaderSearch />
-          <HeaderSortByPrice />
           <Box sx={{ flexGrow: 1 }} />
           <HeaderMenu />
         </Toolbar>

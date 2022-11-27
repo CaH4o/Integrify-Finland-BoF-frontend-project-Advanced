@@ -1,4 +1,4 @@
-import * as React from "react";
+import { Link } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -77,7 +77,12 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
       </Box>
       <CardActions>
         <Button size="large">Add to cart</Button>
-        <Button size="large">Discription</Button>
+        <Link
+          to={`product/${product.id}`}
+          style={{ color: "inherit", textDecoration: "inherit" }}
+        >
+          <Button size="large">Discription</Button>
+        </Link>
       </CardActions>
     </Card>
   );

@@ -57,7 +57,11 @@ const productsSlicer = createSlice({
       .addCase(
         productsGet.fulfilled,
         (state: IProductState, action: PayloadAction<IProduct[]>) => {
-          state.products = action.payload;
+          if (Array.isArray(action.payload)) {
+            state.products = action.payload;
+          } else {
+            state.products = [action.payload];
+          }
           state.loading = false;
         }
       )

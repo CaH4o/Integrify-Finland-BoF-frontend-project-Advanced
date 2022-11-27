@@ -8,7 +8,7 @@ import { RootState } from "../../redux/store";
 import { ISortDir } from "../../types/IProductState";
 import { productsSortByPrice } from "../../redux/reducers/products";
 
-export default function HeaderSortByPrice() {
+export default function HomeSortByPrice() {
   const dispatch = useAppDispatch();
   const sortDir: ISortDir = useAppSelector(
     (state: RootState) => state.products.sortDir

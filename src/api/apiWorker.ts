@@ -5,7 +5,7 @@ import { IProduct } from "../types/IProduct";
 
 export const productsPost = createAsyncThunk(
   "productsPost",
-  async function ({url, data}:{url:string, data:IProduct}) {
+  async function ({ url, data }: { url: string; data: IProduct }) {
     const response = await axios.post(url, data);
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
@@ -29,7 +29,7 @@ export const productsGet = createAsyncThunk(
 
 export const productsPut = createAsyncThunk(
   "productsPut",
-  async function ({url, data}:{url:string, data:IProduct}) {
+  async function ({ url, data }: { url: string; data: IProduct }) {
     const response = await axios.put(url, data);
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
@@ -41,7 +41,7 @@ export const productsPut = createAsyncThunk(
 
 export const productsDelete = createAsyncThunk(
   "productsDelete",
-  async function (url:string) {
+  async function (url: string) {
     const response = await axios.delete(url);
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
