@@ -1,16 +1,19 @@
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
+import {
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Typography,
+  Box,
+} from "@mui/material/";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { RootState } from "../../redux/store";
-import { ISortDir } from "../../types/IProductState";
+import { tSortDir } from "../../types/IProductState";
 import { productsSortByPrice } from "../../redux/reducers/products";
 
-export default function HomeSortByPrice() {
+export default function HomeSortByPrice(): JSX.Element {
   const dispatch = useAppDispatch();
-  const sortDir: ISortDir = useAppSelector(
+  const sortDir: tSortDir = useAppSelector(
     (state: RootState) => state.products.sortDir
   );
 
@@ -21,19 +24,21 @@ export default function HomeSortByPrice() {
   }
 
   return (
-    <FormControl>
-      <RadioGroup row onChange={hendelSortByPrice}  >
+    <Box component="form" margin="1rem" display="flex" justifyContent="center">
+      <RadioGroup row onChange={hendelSortByPrice}>
         <FormControlLabel
           value="asc"
           control={<Radio color="default" />}
-          label="First the cheapest"
+          label={<Typography color="primary">First the cheapest</Typography>}
         />
         <FormControlLabel
           value="desc"
-          control={<Radio color="default"/>}
-          label="First the most expensive"
+          control={<Radio color="default" />}
+          label={
+            <Typography color="primary">First the most expensive</Typography>
+          }
         />
       </RadioGroup>
-    </FormControl>
+    </Box>
   );
 }

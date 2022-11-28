@@ -7,7 +7,7 @@ import {
   productsGet,
   productsPut,
   productsDelete,
-} from "../../api/apiWorker";
+} from "../../api/productsWorker";
 
 const initialState: IProductState = {
   products: [],
@@ -19,7 +19,7 @@ const initialState: IProductState = {
   },
 };
 
-const productsSlicer = createSlice({
+const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
@@ -52,7 +52,7 @@ const productsSlicer = createSlice({
       state.sortDir.byCategories = "asc";
     },
   },
-  extraReducers: (build) => {
+  extraReducers: function (build) {
     build
       .addCase(
         productsGet.fulfilled,
@@ -75,7 +75,7 @@ const productsSlicer = createSlice({
   },
 });
 
-const productsReducer = productsSlicer.reducer;
+const productsReducer = productsSlice.reducer;
 export const { productsSortByCategories, productsSortByPrice } =
-  productsSlicer.actions;
+productsSlice.actions;
 export default productsReducer;

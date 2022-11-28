@@ -4,9 +4,9 @@ export interface IProductState {
   products: IProduct[];
   loading: boolean;
   error: boolean;
-  sortDir: ISortDir;
+  sortDir: tSortDir;
 }
 
-export interface ISortDir {
+export type tSortDir = {
   [key: string]: "asc" | "desc";
 }

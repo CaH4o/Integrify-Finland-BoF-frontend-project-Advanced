@@ -28,7 +28,7 @@ const initialState: IThemeState = {
   mode: "light",
 };
 
-const themesSlicer = createSlice({
+const themesSlice = createSlice({
   name: "themes",
   initialState,
   reducers: {
@@ -38,6 +38,6 @@ const themesSlicer = createSlice({
   },
 });
 
-const themesReducer = themesSlicer.reducer;
-export const { toggleColorMode } = themesSlicer.actions;
+const themesReducer = themesSlice.reducer;
+export const { toggleColorMode } = themesSlice.actions;
 export default themesReducer;
