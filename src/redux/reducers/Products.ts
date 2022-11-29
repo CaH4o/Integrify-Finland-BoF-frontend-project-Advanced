@@ -52,8 +52,8 @@ const productsSlice = createSlice({
       state.sortDir.byCategories = "asc";
     },
   },
-  extraReducers: function (build) {
-    build
+  extraReducers: function (builder) {
+    builder
       .addCase(
         productsGet.fulfilled,
         (state: IProductState, action: PayloadAction<IProduct[]>) => {

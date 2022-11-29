@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import Footer from "../component/footer/Footer";
 import HomeBody from "../component/home/HomeBody";

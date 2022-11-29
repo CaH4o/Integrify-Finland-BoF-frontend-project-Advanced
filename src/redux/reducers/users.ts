@@ -5,18 +5,15 @@ import { IUserState } from "../../types/IUserState";
 import { usersGet } from "../../api/usersWorker";
 
 const initialState: IUserState = {
-  currentUser: undefined,
   users: [],
+  loading: false,
+  error: false,
 };
 
-const userSlice = createSlice({
+const usersSlice = createSlice({
   name: "userReducer",
   initialState,
-  reducers: {
-    setCurrentUser: function (state: IUserState, action: PayloadAction<IUser>) {
-      state.currentUser = action.payload;   
-    },
-  },
+  reducers: {},
   extraReducers: function (build) {
     build.addCase(
       usersGet.fulfilled,
@@ -27,5 +24,6 @@ const userSlice = createSlice({
   },
 });
 
-export default userSlice.reducer;
-export const {} = userSlice.actions;
+const usersReducer = usersSlice.reducer;
+export const {} = usersSlice.actions;
+export default usersReducer;

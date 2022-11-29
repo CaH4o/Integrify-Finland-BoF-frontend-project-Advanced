@@ -1,9 +1,4 @@
-export type tRole = "customer" | "admin";
-
-export interface IUserCredential {
-  email: string;
-  password: string;
-}
+import { IUserCredential, tRole } from "./ICredential";
 
 export interface IUser extends IUserCredential {
   id: number;
@@ -11,4 +6,3 @@ export interface IUser extends IUserCredential {
   role: tRole;
   avatar: string;
 }
-

@@ -2,11 +2,16 @@ import { useState } from "react";
 import { Box, MenuItem, Menu, IconButton } from "@mui/material";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
+import { useAppSelector } from "../../hooks/reduxHooks";
 import HeaderMenuFavorit from "./HeaderMenuFavorit";
 import HeaderMenuCart from "./HeaderMenuCart";
 import HeaderMenuLogin from "./HeaderMenuLogin";
+import HeaderMenuLogOut from "./HeaderMenuLogOut";
 
 export default function HeaderMenu(): JSX.Element {
+  const login: string = useAppSelector(function (state) {
+    return state.credential.name;
+  });
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -46,6 +51,11 @@ export default function HeaderMenu(): JSX.Element {
       <MenuItem>
         <HeaderMenuLogin />
       </MenuItem>
+      {login && (
+        <MenuItem>
+          <HeaderMenuLogOut />
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -55,6 +65,7 @@ export default function HeaderMenu(): JSX.Element {
         <HeaderMenuFavorit />
         <HeaderMenuCart />
         <HeaderMenuLogin />
+        {login && <HeaderMenuLogOut />}
       </Box>
 
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
