@@ -17,39 +17,31 @@ export const credentialPostGet = createAsyncThunk(
     jwtToken.access_token = localStorage.getItem(lsCrdName) || "";
 
     if (credential) {
-      try {
-        const response = await axios.post(
-          "https://api.escuelajs.co/api/v1/auth/login",
-          credential
-        );
-        if (response.status < 400) {
-          jwtToken = response.data;
-          setLocalCredential(jwtToken.access_token);
-        } else {
-          throw new Error(response.status + " " + response.statusText);
-        }
-      } catch (error) {
-        console.log(error);
+      const response = await axios.post(
+        "https://api.escuelajs.co/api/v1/auth/login",
+        credential
+      );
+      if (response.status < 400) {
+        jwtToken = response.data;
+        setLocalCredential(jwtToken.access_token);
+      } else {
+        throw new Error(response.status + " " + response.statusText);
       }
     }
 
     if (jwtToken.access_token) {
-      try {
-        const response = await axios.get(
-          "https://api.escuelajs.co/api/v1/auth/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${jwtToken.access_token}`,
-            },
-          }
-        );
-        if (response.status < 400) {
-          return response.data;
-        } else {
-          throw new Error(response.status + " " + response.statusText);
+      const response = await axios.get(
+        "https://api.escuelajs.co/api/v1/auth/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken.access_token}`,
+          },
         }
-      } catch (error) {
-        console.log(error);
+      );
+      if (response.status < 400) {
+        return response.data;
+      } else {
+        throw new Error(response.status + " " + response.statusText);
       }
     }
   }

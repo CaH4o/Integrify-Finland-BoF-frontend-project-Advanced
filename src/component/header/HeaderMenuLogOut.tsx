@@ -1,24 +1,17 @@
-import React from "react";
+import { Button } from "@mui/material/";
+import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
-import {
-  Box,
-  Button,
-  Modal,
-  Input,
-  InputLabel,
-  InputAdornment,
-  FormControl,
-  IconButton,
-} from "@mui/material/";
 
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { logOut } from "../../redux/reducers/credenital";
 
 export default function HeaderMenuLogOut(): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   function handleClick() {
     dispatch(logOut());
+    navigate("..");
   }
 
   return (

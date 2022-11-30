@@ -1,27 +1,27 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material/";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { credentialPostGet } from "../../api/credenitalWorker";
 import HeaderThemeToggle from "./HeaderThemeToggle";
 import HeaderSearch from "./HeaderSearch";
 import HeaderMenu from "./HeaderMenu";
-import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { credentialPostGet } from "../../api/credenitalWorker";
 
 export default function Header(): JSX.Element {
+  const [updateUser, setUpdateUser] = useState<boolean>(true);
   const dispatch = useAppDispatch();
-  const update: boolean = Boolean(
-    useAppSelector(function (state) {
-      return state.credential.name;
-    })
-  );
 
-  useEffect(function () {
-    if (!update) {
-      dispatch(credentialPostGet(undefined!));
-    }
-  }, []);
+  useEffect(
+    function () {
+      if (updateUser) {
+        dispatch(credentialPostGet(undefined!));
+        setUpdateUser(false);
+      }
+    },
+    [updateUser]
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>

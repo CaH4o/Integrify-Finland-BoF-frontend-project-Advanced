@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Box, MenuItem, Menu, IconButton } from "@mui/material";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
+import { IUser } from "../../types/IUser";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import HeaderMenuFavorit from "./HeaderMenuFavorit";
 import HeaderMenuCart from "./HeaderMenuCart";
@@ -9,8 +10,8 @@ import HeaderMenuLogin from "./HeaderMenuLogin";
 import HeaderMenuLogOut from "./HeaderMenuLogOut";
 
 export default function HeaderMenu(): JSX.Element {
-  const login: string = useAppSelector(function (state) {
-    return state.credential.name;
+  const user: IUser | undefined = useAppSelector(function (state) {
+    return state.credential.user;
   });
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -51,7 +52,7 @@ export default function HeaderMenu(): JSX.Element {
       <MenuItem>
         <HeaderMenuLogin />
       </MenuItem>
-      {login && (
+      {user && (
         <MenuItem>
           <HeaderMenuLogOut />
         </MenuItem>
@@ -65,7 +66,7 @@ export default function HeaderMenu(): JSX.Element {
         <HeaderMenuFavorit />
         <HeaderMenuCart />
         <HeaderMenuLogin />
-        {login && <HeaderMenuLogOut />}
+        {user && <HeaderMenuLogOut />}
       </Box>
 
       <Box sx={{ display: { xs: "flex", md: "none" } }}>

@@ -9,7 +9,7 @@ import { ICredentialState } from "../../types/ICredentialState";
 import { IUser } from "../../types/IUser";
 
 const initialState: ICredentialState = {
-  name: "",
+  user: undefined,
   rights: setRights(),
   error: false,
   loading: false,
@@ -20,7 +20,7 @@ const credenitalsSlice = createSlice({
   initialState,
   reducers: {
     logOut: function (state: ICredentialState) {
-      state.name = "";
+      state.user = undefined;
       setLocalCredential();
     },
   },
@@ -30,8 +30,10 @@ const credenitalsSlice = createSlice({
         credentialPostGet.fulfilled,
         function (state: ICredentialState, action: PayloadAction<IUser>) {
           state.loading = false;
-          state.name = action.payload.name;
-          state.rights = setRights(action.payload.role);
+          if (action.payload) {
+            state.user = action.payload;
+            state.rights = setRights(action.payload.role);
+          }
         }
       )
       .addCase(credentialPostGet.rejected, function (state: ICredentialState) {

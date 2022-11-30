@@ -1,34 +1,19 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  Modal,
-  Input,
-  InputLabel,
-  InputAdornment,
-  FormControl,
-  IconButton,
-} from "@mui/material/";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, Modal, Avatar } from "@mui/material/";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import SendIcon from "@mui/icons-material/Send";
 
-import { ILoginState, IUserCredential } from "../../types/ICredential";
-import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { credentialPostGet } from "../../api/credenitalWorker";
+import { IUser } from "../../types/IUser";
+import { useAppSelector } from "../../hooks/reduxHooks";
+import HeaderMenuLoginForm from "./HeaderMenuLoginForm";
 
 export default function HeaderMenuLogin() {
-  const dispatch = useAppDispatch();
-  const login: string = useAppSelector(function (state) {
-    return state.credential.name;
+  const navigate = useNavigate();
+  const user: IUser | undefined = useAppSelector(function (state) {
+    return state.credential.user;
   });
   const [openModule, setOpenModule] = useState(false);
-  const [credentialsValue, setCredentialsValues] = useState<ILoginState>({
-    email: "",
-    password: "",
-    showPassword: false,
-  });
+
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -44,30 +29,10 @@ export default function HeaderMenuLogin() {
   };
 
   function handleOpen() {
-    setOpenModule(true);
+    user ? navigate("/profile") : setOpenModule(true);
   }
   function handleClose() {
     setOpenModule(false);
-  }
-  const handleChange = (prop: keyof ILoginState) =>
-    function (event: React.ChangeEvent<HTMLInputElement>) {
-      setCredentialsValues({ ...credentialsValue, [prop]: event.target.value });
-    };
-  function handleClickShowPassword() {
-    setCredentialsValues({
-      ...credentialsValue,
-      showPassword: !credentialsValue.showPassword,
-    });
-  }
-  function handleMouseDownPassword(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-  }
-
-  function hendelSubmit() {
-    const { email, password }: IUserCredential = { ...credentialsValue };
-    dispatch(credentialPostGet({ email, password }));
-    setCredentialsValues({ email: "", password: "", showPassword: false });
-    handleClose()
   }
 
   return (
@@ -77,7 +42,17 @@ export default function HeaderMenuLogin() {
         variant="outlined"
         color="inherit"
         onClick={handleOpen}
-        startIcon={<AccountCircle />}
+        startIcon={
+          user ? (
+            <Avatar
+              alt={user.name}
+              src={user?.avatar}
+              sx={{ width: 32, height: 32 }}
+            />
+          ) : (
+            <AccountCircle sx={{ width: 32, height: 32 }} />
+          )
+        }
         sx={{
           border: "none",
           borderRadius: 20,
@@ -85,7 +60,7 @@ export default function HeaderMenuLogin() {
           margin: "0.5rem",
         }}
       >
-        {login || "Login"}
+        {user ? user.name : "Login"}
       </Button>
       <Modal
         open={openModule}
@@ -94,56 +69,7 @@ export default function HeaderMenuLogin() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <FormControl variant="standard">
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Please enter your email and password
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              value={credentialsValue.email}
-              onChange={handleChange("email")}
-              startAdornment={
-                <InputAdornment position="start">
-                  <AccountCircle />
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-          <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-            <InputLabel htmlFor="standard-adornment-password">
-              Password
-            </InputLabel>
-            <Input
-              id="standard-adornment-password"
-              type={credentialsValue.showPassword ? "text" : "password"}
-              value={credentialsValue.password}
-              onChange={handleChange("password")}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {credentialsValue.showPassword ? (
-                      <VisibilityOff />
-                    ) : (
-                      <Visibility />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-          <Button
-            type="button"
-            onClick={hendelSubmit}
-            variant="contained"
-            endIcon={<SendIcon />}
-            sx={{ m: "1rem" }}
-          >
-            Send
-          </Button>
+          <HeaderMenuLoginForm handleClose={handleClose} />
         </Box>
       </Modal>
     </div>
