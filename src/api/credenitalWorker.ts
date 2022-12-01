@@ -12,7 +12,7 @@ const lsCrdName: string = "otiv1ecomertialsitetokenforuserinlocalstorage";
 
 export const credentialPostGet = createAsyncThunk(
   "credentialPost",
-  async function (credential?: IUserCredential) {
+  async function (credential: IUserCredential | undefined) {
     let jwtToken: ICredential = { access_token: "" };
     jwtToken.access_token = localStorage.getItem(lsCrdName) || "";
 

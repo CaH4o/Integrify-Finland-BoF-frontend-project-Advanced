@@ -1,13 +1,20 @@
+import { useEffect } from "react";
 import { ThemeProvider, createTheme, Theme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 
 import "./styles/App.css";
-import AppRouter from "./AppRouter";
-import { useAppSelector } from "./hooks/reduxHooks";
 import { RootState } from "./redux/store";
 import { IThemeState } from "./types/IThemeState";
+import { IUser } from "./types/IUser";
+import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
+import { credentialPostGet } from "./api/credenitalWorker";
+import AppRouter from "./AppRouter";
 
 export default function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const user: IUser | undefined = useAppSelector(
+    (state: RootState) => state.credential.user
+  );
   const themes: IThemeState = useAppSelector(
     (state: RootState) => state.themes
   );
@@ -16,6 +23,12 @@ export default function App(): JSX.Element {
       ...(themes.mode === "light" ? themes.light : themes.dark),
     },
   });
+
+  useEffect(function () {
+    if (!user) {
+      dispatch(credentialPostGet(undefined));
+    }
+  }, []);
 
   return (
     <div className="App">
