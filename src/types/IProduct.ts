@@ -7,4 +7,5 @@ export interface IProduct {
   description: string;
   category: ICategory;
   images: string[];
+  favorite: boolean;
 }

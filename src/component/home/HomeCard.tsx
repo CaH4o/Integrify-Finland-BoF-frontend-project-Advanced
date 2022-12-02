@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {
   Avatar,
   Button,
+  ButtonGroup,
   Box,
   Typography,
   Card,
@@ -10,6 +11,9 @@ import {
   CardContent,
   CardActions,
 } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { IPHomeCard } from "../../types/props/IPHomeCard";
 import { IProduct } from "../../types/IProduct";
@@ -17,7 +21,7 @@ import { IProduct } from "../../types/IProduct";
 export default function HomeCard(params: IPHomeCard): JSX.Element {
   const product: IProduct = params.product;
 
-  function imgHendler(
+  function hendleImag(
     e: React.MouseEvent<HTMLImageElement, MouseEvent>,
     src: string[]
   ) {
@@ -55,7 +59,7 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
           image={product.images[0]}
           alt={product.title}
           onClick={(e) => {
-            imgHendler(e, product.images);
+            hendleImag(e, product.images);
           }}
         />
         <CardContent>
@@ -75,14 +79,19 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
           </Typography>
         </CardContent>
       </Box>
-      <CardActions>
-        <Button size="large">Add to cart</Button>
+      <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Button type="button" size="small">
+          <ShoppingCartIcon />
+        </Button>
         <Link
           to={`product/${product.id}`}
           style={{ color: "inherit", textDecoration: "inherit" }}
         >
-          <Button size="large">Discription</Button>
+          <Button size="small">Discription</Button>
         </Link>
+        <Button type="button" size="small">
+          {product.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </Button>
       </CardActions>
     </Card>
   );

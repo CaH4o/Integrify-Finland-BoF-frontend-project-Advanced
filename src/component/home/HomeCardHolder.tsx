@@ -1,37 +1,40 @@
-import { Grid } from "@mui/material";
+import { Grid, LinearProgress } from "@mui/material";
 
 import { IProduct } from "../../types/IProduct";
+import { IProductState } from "../../types/IProductState";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import HomeCard from "./HomeCard";
 
 export default function HomeCardHolder(): JSX.Element {
-  const products: IProduct[] = useAppSelector(
-    (state) => state.products.products
-  );
+  const products: IProductState = useAppSelector((state) => state.products);
+  const offset: number = (products.page - 1) * 8;
+  const presentProducts: IProduct[] = products.present;
 
   return (
     <>
-      {!products.length ? (
-        <p>loading...</p>
+      {!presentProducts.length ? (
+        <LinearProgress color="inherit" />
       ) : (
-        <Grid container spacing="2rem" >
-          {products.map((product: IProduct) => {
-            return (
-              <Grid
-                key={product.id}
-                item
-                xs={12}
-                sm={12}
-                md={6}
-                lg={4}
-                xl={3}
-                display="flex"
-                justifyContent="center"
-              >
-                <HomeCard product={product} />
-              </Grid>
-            );
-          })}
+        <Grid container spacing="2rem">
+          {presentProducts
+            .slice(offset, offset + 8)
+            .map((product: IProduct) => {
+              return (
+                <Grid
+                  key={product.id}
+                  item
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  lg={4}
+                  xl={3}
+                  display="flex"
+                  justifyContent="center"
+                >
+                  <HomeCard product={product} />
+                </Grid>
+              );
+            })}
         </Grid>
       )}
     </>

@@ -10,9 +10,11 @@ import {
 } from "../../api/productsWorker";
 
 const initialState: IProductState = {
-  products: [],
+  backUp: [],
+  present: [],
   loading: false,
   error: false,
+  page: 1,
   sortDir: {
     byCategories: "asc",
     byPrice: "asc",
@@ -26,30 +28,54 @@ const productsSlice = createSlice({
     productsSortByCategories(state: IProductState) {
       const direction: "asc" | "desc" = state.sortDir.byCategories;
       if (direction === "asc") {
-        state.products.sort(function (a: IProduct, b: IProduct): number {
+        state.present.sort(function (a: IProduct, b: IProduct): number {
           return a.category.name.localeCompare(b.category.name);
         });
       } else {
-        state.products.sort(function (a: IProduct, b: IProduct): number {
+        state.present.sort(function (a: IProduct, b: IProduct): number {
           return b.category.name.localeCompare(a.category.name);
         });
       }
       state.sortDir.byCategories = direction === "asc" ? "desc" : "asc";
       state.sortDir.byPrice = "asc";
+      state.page = 1;
     },
     productsSortByPrice(state: IProductState) {
       const direction: "asc" | "desc" = state.sortDir.byPrice;
       if (direction === "asc") {
-        state.products.sort(function (a: IProduct, b: IProduct): number {
+        state.present.sort(function (a: IProduct, b: IProduct): number {
           return a.price - b.price;
         });
       } else {
-        state.products.sort(function (a: IProduct, b: IProduct): number {
+        state.present.sort(function (a: IProduct, b: IProduct): number {
           return b.price - a.price;
         });
       }
       state.sortDir.byPrice = direction === "asc" ? "desc" : "asc";
       state.sortDir.byCategories = "asc";
+      state.page = 1;
+    },
+    productsSetPage(state: IProductState, action: PayloadAction<number>) {
+      state.page = action.payload;
+    },
+    productsSearch(state: IProductState, action: PayloadAction<string>) {
+      const products: IProduct[] = state.backUp.filter(function (p: IProduct) {
+        return (
+          p.title +
+          "|" +
+          p.description +
+          "|" +
+          p.price.toString() +
+          "|" +
+          p.category.name
+        )
+          .toLocaleLowerCase()
+          .includes(action.payload.toLocaleLowerCase());
+      });
+      state.present = products.length
+        ? products
+        : state.backUp.map((product: IProduct) => product);
+      state.page = 1;
     },
   },
   extraReducers: function (builder) {
@@ -58,10 +84,15 @@ const productsSlice = createSlice({
         productsGet.fulfilled,
         (state: IProductState, action: PayloadAction<IProduct[]>) => {
           if (Array.isArray(action.payload)) {
-            state.products = action.payload;
+            state.backUp = action.payload.map((product: IProduct) => {
+              return { ...product, favorit: false };
+            });
           } else {
-            state.products = [action.payload];
+            state.backUp = [action.payload].map((product: IProduct) => {
+              return { ...product, favorit: false };
+            });
           }
+          state.present = state.backUp.map((product: IProduct) => product);
           state.loading = false;
         }
       )
@@ -76,6 +107,10 @@ const productsSlice = createSlice({
 });
 
 const productsReducer = productsSlice.reducer;
-export const { productsSortByCategories, productsSortByPrice } =
-productsSlice.actions;
+export const {
+  productsSortByCategories,
+  productsSortByPrice,
+  productsSetPage,
+  productsSearch,
+} = productsSlice.actions;
 export default productsReducer;

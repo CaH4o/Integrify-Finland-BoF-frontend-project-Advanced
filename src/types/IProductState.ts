@@ -1,9 +1,11 @@
 import { IProduct } from "./IProduct";
 
 export interface IProductState {
-  products: IProduct[];
+  backUp: IProduct[];
+  present: IProduct[];
   loading: boolean;
   error: boolean;
+  page: number;
   sortDir: tSortDir;
 }
 
