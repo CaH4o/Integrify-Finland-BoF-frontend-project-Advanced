@@ -1,3 +1,4 @@
+import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import {
   Avatar,
@@ -17,8 +18,11 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { IPHomeCard } from "../../types/props/IPHomeCard";
 import { IProduct } from "../../types/IProduct";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { productFavoritAddRemove } from "../../redux/reducers/products";
 
 export default function HomeCard(params: IPHomeCard): JSX.Element {
+  const dispatch = useAppDispatch();
   const product: IProduct = params.product;
 
   function hendleImag(
@@ -31,6 +35,10 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
     e.currentTarget.src = src[++index]
       ? product.images[index]
       : product.images[0];
+  }
+
+  function hendleFavorit() {
+    dispatch(productFavoritAddRemove(product.id));
   }
 
   return (
@@ -89,7 +97,7 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
         >
           <Button size="small">Discription</Button>
         </Link>
-        <Button type="button" size="small">
+        <Button type="button" size="small" onClick={hendleFavorit}>
           {product.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </Button>
       </CardActions>

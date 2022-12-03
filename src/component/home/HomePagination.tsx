@@ -10,7 +10,7 @@ export default function HomePagination(): JSX.Element {
     return state.products;
   });
   const page: number = products.page;
-  const pages: number = Math.trunc(products.present.length / 8);
+  const pages: number = Math.ceil(products.present.length / 8);
 
   function handleChange(event: React.ChangeEvent<unknown>, value: number) {
     dispatch(productsSetPage(value));

@@ -4,6 +4,7 @@ import productsReducer from "./reducers/products";
 import themesReducer from "./reducers/themes";
 import credenitalsReducer from "./reducers/credenital";
 import usersReducer from "./reducers/users";
+import cartReducer from "./reducers/cart";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     products: productsReducer,
     credential: credenitalsReducer,
     users: usersReducer,
+    cart: cartReducer,
   },
 });
 

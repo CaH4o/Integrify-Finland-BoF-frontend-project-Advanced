@@ -11,7 +11,7 @@ import { IProduct } from "../../types/IProduct";
 
 export default function ProductBody(): JSX.Element {
   const product: IProduct = useAppSelector(
-    (state) => state.products.present[0]
+    (state) => state.products.single[0]
   );
 
   return (

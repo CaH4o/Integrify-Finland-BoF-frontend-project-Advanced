@@ -3,6 +3,7 @@ import { IProduct } from "./IProduct";
 export interface IProductState {
   backUp: IProduct[];
   present: IProduct[];
+  single: IProduct[];
   loading: boolean;
   error: boolean;
   page: number;
@@ -11,4 +12,4 @@ export interface IProductState {
 
 export type tSortDir = {
   [key: string]: "asc" | "desc";
-}
+};
