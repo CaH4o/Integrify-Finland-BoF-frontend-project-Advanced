@@ -1,9 +1,7 @@
-import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import {
   Avatar,
   Button,
-  ButtonGroup,
   Box,
   Typography,
   Card,
@@ -20,6 +18,7 @@ import { IPHomeCard } from "../../types/props/IPHomeCard";
 import { IProduct } from "../../types/IProduct";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { productFavoritAddRemove } from "../../redux/reducers/products";
+import { cartProductAdd } from "../../redux/reducers/cart";
 
 export default function HomeCard(params: IPHomeCard): JSX.Element {
   const dispatch = useAppDispatch();
@@ -36,9 +35,11 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
       ? product.images[index]
       : product.images[0];
   }
-
   function hendleFavorit() {
     dispatch(productFavoritAddRemove(product.id));
+  }
+  function hendleCart() {
+    dispatch(cartProductAdd(product));
   }
 
   return (
@@ -88,7 +89,7 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
         </CardContent>
       </Box>
       <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button type="button" size="small">
+        <Button type="button" size="small" onClick={hendleCart}>
           <ShoppingCartIcon />
         </Button>
         <Link

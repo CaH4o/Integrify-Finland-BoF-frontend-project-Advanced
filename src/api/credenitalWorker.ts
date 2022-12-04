@@ -13,9 +13,8 @@ const lsCrdName: string = "otiv1ecomertialsitetokenforuserinlocalstorage";
 export const credentialPostGet = createAsyncThunk(
   "credentialPost",
   async function (credential: IUserCredential | undefined) {
-    let jwtToken: ICredential = { access_token: "" };
-    jwtToken.access_token = localStorage.getItem(lsCrdName) || "";
-
+    let jwtToken: ICredential = getLocalCredential();
+    
     if (credential) {
       const response = await axios.post(
         "https://api.escuelajs.co/api/v1/auth/login",
@@ -49,6 +48,10 @@ export const credentialPostGet = createAsyncThunk(
 
 export function setLocalCredential(token: string = "") {
   localStorage.setItem(lsCrdName, token);
+}
+
+export function getLocalCredential(): ICredential {
+  return { access_token: localStorage.getItem(lsCrdName) || "" };
 }
 
 export function setRights(role: tRole = "customer"): tRight {
