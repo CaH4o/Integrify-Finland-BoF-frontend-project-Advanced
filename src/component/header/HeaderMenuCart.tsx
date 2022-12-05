@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { IconButton, Badge } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
@@ -9,6 +10,7 @@ import { ICredentialState } from "../../types/ICredentialState";
 
 export default function HeaderMenuCart(): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const carts: ICartState = useAppSelector(function (state) {
     return state.cart;
   });
@@ -23,8 +25,17 @@ export default function HeaderMenuCart(): JSX.Element {
     [carts, users]
   );
 
+  function handleClick() {
+    navigate("/cart");
+  }
+
   return (
-    <IconButton size="large" aria-label="show catrs items" color="inherit">
+    <IconButton
+      size="large"
+      aria-label="show catrs items"
+      color="inherit"
+      onClick={handleClick}
+    >
       <Badge badgeContent={carts.noProducts} color="info">
         <ShoppingCartIcon />
       </Badge>

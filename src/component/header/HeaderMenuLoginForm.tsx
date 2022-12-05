@@ -6,56 +6,114 @@ import {
   InputAdornment,
   FormControl,
   IconButton,
+  TextField,
+  Typography,
 } from "@mui/material/";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import SendIcon from "@mui/icons-material/Send";
-import { Link } from "react-router-dom";
 
-import { ILoginState, IUserCredential } from "../../types/ICredential";
+import { IUser } from "../../types/IUser";
+import { ILoginFormState } from "../../types/ICredential";
+import {
+  IPHeaderMenuLoginForm,
+  tModeLogin,
+} from "../../types/props/IPHeaderMenuLoginForm";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { credentialPostGet } from "../../api/credenitalWorker";
+import { checkUser, createUser } from "../../api/usersWorker";
 
-export default function HeaderMenuLoginForm({
-  handleClose,
-}: {
-  handleClose(): void;
-}): JSX.Element {
-  const dispatch = useAppDispatch();
-  const [credentialsValue, setCredentialsValues] = useState<ILoginState>({
+function initCredentialsValues(): ILoginFormState {
+  return {
     email: "",
     password: "",
     showPassword: false,
-  });
+    name: "",
+  };
+}
 
-  const handleChange = (prop: keyof ILoginState) =>
+function HeaderMenuLoginForm(params: IPHeaderMenuLoginForm): JSX.Element {
+  const dispatch = useAppDispatch();
+  const [mode, setMode] = useState<tModeLogin>("login");
+  const [message, setMessge] = useState<string>("");
+  const [credentialsValue, setCredentialsValues] = useState<ILoginFormState>(
+    initCredentialsValues()
+  );
+
+  const handleChange = (prop: keyof ILoginFormState) =>
     function (event: React.ChangeEvent<HTMLInputElement>) {
       setCredentialsValues({ ...credentialsValue, [prop]: event.target.value });
     };
+
   function handleClickShowPassword() {
     setCredentialsValues({
       ...credentialsValue,
       showPassword: !credentialsValue.showPassword,
     });
   }
+
   function handleMouseDownPassword(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
   }
 
-  function hendelSubmit() {
-    const { email, password }: IUserCredential = { ...credentialsValue };
+  function toggleMode() {
+    setMode(mode === "registration" ? "login" : "registration");
+    setCredentialsValues(initCredentialsValues());
+  }
+
+  async function hendelSubmit() {
+    const { name, email, password } = {
+      ...credentialsValue,
+    };
+
+    if (mode === "registration") {
+      const check: { isAvailable: boolean } = await checkUser({ email });
+
+      if (check.isAvailable) {
+        const newUser: IUser = {
+          name: name,
+          email: email,
+          password: password,
+          id: 0,
+          role: "customer",
+          avatar:
+            "https://i0.wp.com/errori.net/wp-content/uploads/2021/02/avatar.jpg",
+        };
+        await createUser(newUser);
+      } else {
+        setMessge("email is not available");
+        setTimeout(() => setMessge(""), 2000);
+        return;
+      }
+    }
+
     dispatch(credentialPostGet({ email, password }));
-    setCredentialsValues({ email: "", password: "", showPassword: false });
-    handleClose();
+    setCredentialsValues(initCredentialsValues());
+    params.handleClose();
   }
 
   return (
     <>
+      <Typography color="primary" textAlign="center">
+        {mode === "login"
+          ? "Please enter your email and password"
+          : "Please enter your name, email and password"}
+      </Typography>
+      {mode === "registration" && (
+        <>
+          <TextField
+            required
+            variant="standard"
+            label="Name"
+            type="text"
+            value={credentialsValue.name}
+            onChange={handleChange("name")}
+          />
+        </>
+      )}
       <FormControl variant="standard">
-        <InputLabel htmlFor="input-with-icon-adornment">
-          Please enter your email and password
-        </InputLabel>
+        <InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
         <Input
           id="input-with-icon-adornment"
           type="email"
@@ -92,6 +150,11 @@ export default function HeaderMenuLoginForm({
           }
         />
       </FormControl>
+      {message.length > 0 && (
+        <Typography color="error" textAlign="center">
+          {message}
+        </Typography>
+      )}
       <Button
         type="button"
         onClick={hendelSubmit}
@@ -101,13 +164,20 @@ export default function HeaderMenuLoginForm({
       >
         Send
       </Button>
-      <Link
-        onClick={handleClose}
-        to="/profile"
-        style={{ margin: "0.5rem 0", textAlign: "center" }}
+      <Button
+        type="button"
+        onClick={toggleMode}
+        style={{
+          margin: "0.5rem 0",
+          textTransform: "none",
+        }}
       >
-        Click to create a new accaunt.
-      </Link>
+        {mode === "registration"
+          ? "You have an account"
+          : "Create an new accaunt"}
+      </Button>
     </>
   );
 }
+
+export default HeaderMenuLoginForm;

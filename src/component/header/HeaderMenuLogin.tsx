@@ -7,26 +7,27 @@ import { IUser } from "../../types/IUser";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import HeaderMenuLoginForm from "./HeaderMenuLoginForm";
 
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 240,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+};
+
 export default function HeaderMenuLogin() {
   const navigate = useNavigate();
   const user: IUser | undefined = useAppSelector(function (state) {
     return state.credential.user;
   });
   const [openModule, setOpenModule] = useState(false);
-
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 240,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-    display: "flex",
-    flexDirection: "column",
-  };
 
   function handleOpen() {
     user ? navigate("/profile") : setOpenModule(true);

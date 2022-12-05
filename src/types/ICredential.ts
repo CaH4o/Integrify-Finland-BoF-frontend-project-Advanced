@@ -7,8 +7,9 @@ export interface IUserCredential {
   password: string;
 }
 
-export interface ILoginState extends IUserCredential {
+export interface ILoginFormState extends IUserCredential {
   showPassword: boolean;
+  name: string;
 }
 
 export type tRole = "customer" | "admin";
