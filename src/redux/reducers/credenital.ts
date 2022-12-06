@@ -10,7 +10,7 @@ import { IUser } from "../../types/IUser";
 
 const initialState: ICredentialState = {
   user: undefined,
-  rights: setRights(),
+  rights: setRights(""),
   error: false,
   loading: false,
 };
@@ -21,6 +21,7 @@ const credenitalsSlice = createSlice({
   reducers: {
     logOut: function (state: ICredentialState) {
       state.user = undefined;
+      state.rights = setRights("");
       setLocalCredential();
     },
   },

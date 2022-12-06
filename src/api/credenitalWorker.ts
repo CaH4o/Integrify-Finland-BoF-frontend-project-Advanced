@@ -14,7 +14,7 @@ export const credentialPostGet = createAsyncThunk(
   "credentialPost",
   async function (credential: IUserCredential | undefined) {
     let jwtToken: ICredential = getLocalCredential();
-    
+
     if (credential) {
       const response = await axios.post(
         "https://api.escuelajs.co/api/v1/auth/login",
@@ -54,39 +54,48 @@ export function getLocalCredential(): ICredential {
   return { access_token: localStorage.getItem(lsCrdName) || "" };
 }
 
-export function setRights(role: tRole = "customer"): tRight {
+export function setRights(role: tRole | ""): tRight {
   const rights: tRight = {
-    users: { create: false, read: false, update: false, delete: false },
-    products: {
-      create: false,
-      read: false,
-      update: false,
-      delete: false,
-    },
+    user: { openProfile: false, update: false },
+    users: { getAll: false, update: false, create: false },
+    products: { create: false, update: false, delete: false },
+    category: { get: false, create: false, update: false, delete: false },
   };
+
   switch (role) {
     case "admin":
-      rights.users.create = true;
-      rights.users.read = true;
+      rights.user.openProfile = true;
+      rights.user.update = true;
+      rights.users.getAll = true;
       rights.users.update = true;
-      rights.users.delete = true;
+      rights.users.create = true;
       rights.products.create = true;
-      rights.products.read = true;
       rights.products.update = true;
       rights.products.delete = true;
+      rights.category.get = true;
+      rights.category.create = true;
+      rights.category.update = true;
+      rights.category.delete = true;
       break;
     case "customer":
-      rights.users.create = false;
-      rights.users.read = false;
-      rights.users.update = false;
-      rights.users.delete = false;
-      rights.products.create = false;
-      rights.products.read = true;
-      rights.products.update = false;
-      rights.products.delete = false;
+      rights.user.openProfile = true;
+      rights.user.update = true;
+      break;
+    case "manager":
+      rights.user.openProfile = true;
+      rights.user.update = true;
+      rights.products.create = true;
+      rights.products.update = true;
+      rights.products.delete = true;
+      rights.category.get = true;
+      rights.category.create = true;
+      rights.category.update = true;
+      rights.category.delete = true;
       break;
     default:
       break;
   }
+
+  console.log(JSON.stringify(rights));
   return rights;
 }

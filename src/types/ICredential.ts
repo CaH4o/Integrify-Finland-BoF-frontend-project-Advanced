@@ -12,13 +12,10 @@ export interface ILoginFormState extends IUserCredential {
   name: string;
 }
 
-export type tRole = "customer" | "admin";
+export type tRole = "customer" | "admin" | "manager";
 
 export type tRightType = {
-  create: boolean;
-  read: boolean;
-  update: boolean;
-  delete: boolean;
+  [key: string]: boolean;
 };
 
 export type tRight = {

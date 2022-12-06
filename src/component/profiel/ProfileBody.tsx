@@ -29,7 +29,7 @@ export default function ProfileBody(): JSX.Element {
     if (!currentUser) {
       navigate("..");
     }
-  }, []);
+  }, [currentUser]);
 
   function hendleSubmit() {}
 
@@ -114,16 +114,15 @@ export default function ProfileBody(): JSX.Element {
                 value={user.role}
                 label="Role"
                 onChange={handleChangeSelect}
-                disabled={!rights.users.create}
+                disabled={rights.users.create}
               >
                 <MenuItem value="customer">customer</MenuItem>
                 <MenuItem value="admin">admin</MenuItem>
               </Select>
             </FormControl>
 
-            <Button disabled={!rights.users.create}>Create</Button>
-            <Button disabled={!rights.users.update}>Update</Button>
-            <Button disabled={!rights.users.delete}>Delete</Button>
+            <Button disabled={rights.users.create}>Create</Button>
+            <Button disabled={rights.users.update}>Update</Button>
           </Box>
         </Box>
       )}
