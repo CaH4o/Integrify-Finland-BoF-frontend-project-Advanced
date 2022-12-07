@@ -45,7 +45,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function HeaderSearch(): JSX.Element {
+export default function HomeAsideSearch(): JSX.Element {
   const dispatch = useAppDispatch();
   const [searchValue, setSearchValue] = useState<string>("");
   const [update, setUpdate] = useState<boolean>(false);

@@ -96,6 +96,5 @@ export function setRights(role: tRole | ""): tRight {
       break;
   }
 
-  console.log(JSON.stringify(rights));
   return rights;
 }

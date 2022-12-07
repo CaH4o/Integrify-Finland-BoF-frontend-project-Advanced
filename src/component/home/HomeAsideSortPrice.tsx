@@ -11,7 +11,7 @@ import { RootState } from "../../redux/store";
 import { tSortDir } from "../../types/IProductState";
 import { productsSortByPrice } from "../../redux/reducers/products";
 
-export default function HomeSortByPrice(): JSX.Element {
+export default function HomeAsideSortPrice(): JSX.Element {
   const dispatch = useAppDispatch();
   const sortDir: tSortDir = useAppSelector(
     (state: RootState) => state.products.sortDir

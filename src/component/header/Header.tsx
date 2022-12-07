@@ -3,7 +3,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 
 import HeaderThemeToggle from "./HeaderThemeToggle";
-import HeaderSearch from "./HeaderSearch";
 import HeaderMenu from "./HeaderMenu";
 
 export default function Header(): JSX.Element {
@@ -31,7 +30,6 @@ export default function Header(): JSX.Element {
           >
             E-commerce website
           </Typography>
-          <HeaderSearch />
           <Box sx={{ flexGrow: 1 }} />
           <HeaderMenu />
         </Toolbar>

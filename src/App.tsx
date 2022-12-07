@@ -9,6 +9,7 @@ import { IUser } from "./types/IUser";
 import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
 import { credentialPostGet } from "./api/credenitalWorker";
 import AppRouter from "./AppRouter";
+import Header from "./component/header/Header";
 
 export default function App(): JSX.Element {
   const dispatch = useAppDispatch();
