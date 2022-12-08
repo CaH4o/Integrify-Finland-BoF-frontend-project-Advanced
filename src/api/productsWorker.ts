@@ -50,3 +50,15 @@ export const productsDelete = createAsyncThunk(
     }
   }
 );
+
+export const categoriesGet = createAsyncThunk(
+  "categoriesGet",
+  async function (url: string) {
+    const response = await axios.get(url);
+    if (response.status >= 400) {
+      throw new Error(response.status + " " + response.statusText);
+    } else {
+      return response.data;
+    }
+  }
+);

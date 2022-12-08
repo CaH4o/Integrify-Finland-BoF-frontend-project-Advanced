@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Grid } from "@mui/material";
 
 import { useAppDispatch } from "../hooks/reduxHooks";
-import { productsGet } from "../api/productsWorker";
+import { categoriesGet, productsGet } from "../api/productsWorker";
 import Footer from "../component/footer/Footer";
 import HomeBody from "../component/home/HomeBody";
 import Header from "../component/header/Header";
@@ -19,6 +19,7 @@ export default function HomePage() {
 
   useEffect(function () {
     dispatch(productsGet("https://api.escuelajs.co/api/v1/products"));
+    dispatch(categoriesGet("https://api.escuelajs.co/api/v1/categories"));
   }, []);
 
   return (

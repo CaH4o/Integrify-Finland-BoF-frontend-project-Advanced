@@ -3,3 +3,7 @@ export interface ICategory {
   name: string;
   image: string;
 }
+
+export interface ICategoryState extends ICategory {
+  checked: boolean;
+}

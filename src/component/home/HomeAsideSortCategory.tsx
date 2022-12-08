@@ -9,7 +9,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { RootState } from "../../redux/store";
 import { tSortDir } from "../../types/IProductState";
-import { productsSortByPrice } from "../../redux/reducers/products";
+import { productsSortByCategories } from "../../redux/reducers/products";
 
 export default function HomeAsideSortPrice(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -18,8 +18,8 @@ export default function HomeAsideSortPrice(): JSX.Element {
   );
 
   function hendelSortByPrice(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.currentTarget.value === sortDir.byPrice) {
-      dispatch(productsSortByPrice());
+    if (event.currentTarget.value === sortDir.byCategories) {
+      dispatch(productsSortByCategories());
     }
   }
 
@@ -33,14 +33,12 @@ export default function HomeAsideSortPrice(): JSX.Element {
         <FormControlLabel
           value="asc"
           control={<Radio color="default" />}
-          label={<Typography color="primary">First the cheapest</Typography>}
+          label={<Typography color="primary">From A to Z</Typography>}
         />
         <FormControlLabel
           value="desc"
           control={<Radio color="default" />}
-          label={
-            <Typography color="primary">First the most expensive</Typography>
-          }
+          label={<Typography color="primary">From Z to A</Typography>}
         />
       </RadioGroup>
     </Box>

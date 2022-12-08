@@ -1,42 +1,25 @@
-import { useState } from "react";
 import {
   Box,
   FormLabel,
   FormControl,
   FormGroup,
   FormControlLabel,
-  FormHelperText,
   Checkbox,
+  Typography,
 } from "@mui/material";
 
-import { IProduct } from "../../types/IProduct";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { ICategoryState } from "../../types/ICategoty";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { productsSelectCategories } from "../../redux/reducers/products";
 
 export default function HomeAsideSelectedCataroty(): JSX.Element {
-  const products: IProduct[] = useAppSelector(function (state) {
-    return state.products.present;
-  });
-  const categories: Set<string> = new Set(
-    products.map(function (p: IProduct) {
-      return p.category.name;
-    })
-  );
-  const categoriesInitState: {
-    name: string;
-    checked: boolean;
-  }[] = [];
+  const dispatch = useAppDispatch();
+  const categories: ICategoryState[] = useAppSelector(function (state) {
+    return state.products.categories;
+  })
 
-  categories.forEach(function (name: string) {
-    categoriesInitState.push({ name, checked: false });
-  });
-
-  const [state, setState] = useState(categoriesInitState);
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
+  function handleChange(id: number) {
+    dispatch(productsSelectCategories(id));
   }
 
   return (
@@ -44,44 +27,22 @@ export default function HomeAsideSelectedCataroty(): JSX.Element {
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
         <FormLabel component="legend">Categories</FormLabel>
         <FormGroup>
-          {state.map(function (c) {
+          {categories.map(function (c:ICategoryState) {
             return (
               <FormControlLabel
+                key={c.name}
                 control={
                   <Checkbox
                     checked={c.checked}
-                    onChange={handleChange}
-                    name={c.name}
+                    onChange={()=>handleChange(c.id)}
+                    color="default"
                   />
                 }
-                label={c.name}
+                label={<Typography color="primary">{c.name}</Typography>}
               />
             );
           })}
-          {/* <FormControlLabel
-            control={
-              <Checkbox checked={gilad} onChange={handleChange} name="gilad" />
-            }
-            label="Gilad Gray"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox checked={jason} onChange={handleChange} name="jason" />
-            }
-            label="Jason Killian"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={antoine}
-                onChange={handleChange}
-                name="antoine"
-              />
-            }
-            label="Antoine Llorca"
-          /> */}
         </FormGroup>
-        <FormHelperText>Be careful</FormHelperText>
       </FormControl>
     </Box>
   );

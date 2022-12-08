@@ -2,17 +2,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { IProduct } from "../../types/IProduct";
 import { IProductState } from "../../types/IProductState";
+import { ICategoryState, ICategory } from "../../types/ICategoty";
 import {
   productsPost,
   productsGet,
   productsPut,
   productsDelete,
+  categoriesGet,
 } from "../../api/productsWorker";
 
 const initialState: IProductState = {
   backUp: [],
   present: [],
   single: [],
+  categories: [],
   loading: false,
   error: false,
   page: 1,
@@ -44,6 +47,33 @@ const productsSlice = createSlice({
       if (state.single.length && action.payload === state.single[0].id) {
         state.single[0].favorite = !state.single[0].favorite;
       }
+    },
+    productsSelectCategories(
+      state: IProductState,
+      action: PayloadAction<number>
+    ) {
+      state.categories.forEach(function (c: ICategoryState) {
+        if (c.id === action.payload) {
+          c.checked = !c.checked;
+        }
+      });
+
+      const checkedId: number[] = [];
+      state.categories.forEach(function (c: ICategoryState) {
+        if (c.checked) {
+          checkedId.push(c.id);
+        }
+      });
+
+      state.present = checkedId.length
+        ? state.backUp.filter(function (p: IProduct) {
+            return checkedId.includes(p.category.id);
+          })
+        : JSON.parse(JSON.stringify(state.backUp));
+
+      console.log(JSON.stringify(state.categories));
+
+      state.page = 1;
     },
     productsSortByCategories(state: IProductState) {
       const direction: "asc" | "desc" = state.sortDir.byCategories;
@@ -126,12 +156,29 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = true;
       });
+    builder
+      .addCase(
+        categoriesGet.fulfilled,
+        (state: IProductState, action: PayloadAction<ICategory[]>) => {
+          state.categories = action.payload.map(function (c: ICategory) {
+            return { ...c, checked: false };
+          });
+        }
+      )
+      .addCase(categoriesGet.pending, (state: IProductState) => {
+        state.loading = true;
+      })
+      .addCase(categoriesGet.rejected, (state: IProductState) => {
+        state.loading = false;
+        state.error = true;
+      });
   },
 });
 
 const productsReducer = productsSlice.reducer;
 export const {
   productFavoritAddRemove,
+  productsSelectCategories,
   productsSortByCategories,
   productsSortByPrice,
   productsSetPage,
