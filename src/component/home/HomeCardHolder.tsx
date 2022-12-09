@@ -1,4 +1,4 @@
-import { Grid, LinearProgress } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 import { IProduct } from "../../types/IProduct";
 import { IProductState } from "../../types/IProductState";
@@ -13,7 +13,7 @@ export default function HomeCardHolder(): JSX.Element {
   return (
     <>
       {!presentProducts.length ? (
-        <LinearProgress color="inherit" />
+        <Typography variant="body2">Sorry. No product found</Typography>
       ) : (
         <Grid container spacing="2rem">
           {presentProducts

@@ -4,6 +4,6 @@ export interface ICategory {
   image: string;
 }
 
-export interface ICategoryState extends ICategory {
+export interface ICategoryState extends Omit<ICategory, "image"> {
   checked: boolean;
 }

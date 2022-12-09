@@ -23,6 +23,10 @@ const initialState: IProductState = {
     byCategories: "asc",
     byPrice: "asc",
   },
+  filters: {
+    search: "",
+    categories: [],
+  },
 };
 
 const productsSlice = createSlice({
@@ -47,33 +51,6 @@ const productsSlice = createSlice({
       if (state.single.length && action.payload === state.single[0].id) {
         state.single[0].favorite = !state.single[0].favorite;
       }
-    },
-    productsSelectCategories(
-      state: IProductState,
-      action: PayloadAction<number>
-    ) {
-      state.categories.forEach(function (c: ICategoryState) {
-        if (c.id === action.payload) {
-          c.checked = !c.checked;
-        }
-      });
-
-      const checkedId: number[] = [];
-      state.categories.forEach(function (c: ICategoryState) {
-        if (c.checked) {
-          checkedId.push(c.id);
-        }
-      });
-
-      state.present = checkedId.length
-        ? state.backUp.filter(function (p: IProduct) {
-            return checkedId.includes(p.category.id);
-          })
-        : JSON.parse(JSON.stringify(state.backUp));
-
-      console.log(JSON.stringify(state.categories));
-
-      state.page = 1;
     },
     productsSortByCategories(state: IProductState) {
       const direction: "asc" | "desc" = state.sortDir.byCategories;
@@ -109,23 +86,60 @@ const productsSlice = createSlice({
       state.page = action.payload;
     },
     productsSearch(state: IProductState, action: PayloadAction<string>) {
-      const products: IProduct[] = state.backUp.filter(function (p: IProduct) {
-        return (
-          p.title +
-          "|" +
-          p.description +
-          "|" +
-          p.price.toString() +
-          "|" +
-          p.category.name
-        )
-          .toLocaleLowerCase()
-          .includes(action.payload.toLocaleLowerCase());
+      state.filters.search = action.payload;
+    },
+    productsSelectCategories(
+      state: IProductState,
+      action: PayloadAction<number>
+    ) {
+      state.filters.categories.forEach(function (c: ICategoryState) {
+        if (c.id === action.payload) {
+          c.checked = !c.checked;
+        }
       });
-      state.present = products.length
-        ? products
-        : JSON.parse(JSON.stringify(state.backUp));
+    },
+    productUpdatePresent(state: IProductState) {
+      let products: IProduct[] = state.backUp;
+      const search: string = state.filters.search;
+      const checkedId: number[] = [];
+
+      state.filters.categories.forEach(function (c: ICategoryState) {
+        if (c.checked) {
+          checkedId.push(c.id);
+        }
+      });
+
+      if (checkedId.length) {
+        products = products.filter(function (p: IProduct) {
+          return checkedId.includes(p.category.id);
+        });
+      }
+
+      if (search) {
+        products = products.filter(function (p: IProduct) {
+          return (
+            p.title +
+            "|" +
+            p.description +
+            "|" +
+            p.price.toString() +
+            "|" +
+            p.category.name
+          )
+            .toLocaleLowerCase()
+            .includes(search.toLocaleLowerCase());
+        });
+      }
+
+      state.present = products;
       state.page = 1;
+    },
+    productReset(state: IProductState) {
+      state.filters.search = "";
+      state.filters.categories.forEach(function (c: ICategoryState) {
+        c.checked = false;
+      });
+      state.present = JSON.parse(JSON.stringify(state.backUp));
     },
   },
   extraReducers: function (builder) {
@@ -160,9 +174,18 @@ const productsSlice = createSlice({
       .addCase(
         categoriesGet.fulfilled,
         (state: IProductState, action: PayloadAction<ICategory[]>) => {
-          state.categories = action.payload.map(function (c: ICategory) {
-            return { ...c, checked: false };
+          state.categories = action.payload;
+          state.filters.categories = action.payload.map(function (
+            c: ICategory
+          ) {
+            const filtersCategories: ICategoryState = {
+              name: c.name,
+              id: c.id,
+              checked: false,
+            };
+            return filtersCategories;
           });
+          state.loading = false;
         }
       )
       .addCase(categoriesGet.pending, (state: IProductState) => {
@@ -183,5 +206,7 @@ export const {
   productsSortByPrice,
   productsSetPage,
   productsSearch,
+  productUpdatePresent,
+  productReset,
 } = productsSlice.actions;
 export default productsReducer;

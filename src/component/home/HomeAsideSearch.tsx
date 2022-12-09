@@ -1,17 +1,17 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { useAppDispatch } from "../../hooks/reduxHooks";
-import { productsSearch } from "../../redux/reducers/products";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { productsSearch, productUpdatePresent, productReset } from "../../redux/reducers/products";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.4),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.white, 0.6),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -20,6 +20,8 @@ const Search = styled("div")(({ theme }) => ({
     marginLeft: theme.spacing(3),
     width: "auto",
   },
+  border: "1px solid",
+  borderColor: "primary"
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -39,38 +41,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
   },
 }));
 
 export default function HomeAsideSearch(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [update, setUpdate] = useState<boolean>(false);
+  const searchValue: string = useAppSelector(function (state) {
+    return state.products.filters.search;
+  });
   let timer: NodeJS.Timeout | undefined = undefined;
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    setSearchValue(e.target.value || "");
+    dispatch(productsSearch(e.target.value || ""));
     clearTimeout(timer);
     timer = setTimeout(function () {
-      setUpdate(true);
+      dispatch(productUpdatePresent());
     }, 1000);
   }
-
-  useEffect(
-    function () {
-      if (update) {
-        dispatch(productsSearch(searchValue));
-        setUpdate(false);
-        clearTimeout(timer);
-      }
-    },
-    [searchValue, update]
-  );
 
   return (
     <Search>
@@ -81,6 +70,7 @@ export default function HomeAsideSearch(): JSX.Element {
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
         onChange={handleChange}
+        value={searchValue}
       />
     </Search>
   );
