@@ -6,13 +6,12 @@ import {
   ImageList,
 } from "@mui/material";
 
-import { useAppSelector } from "../../hooks/reduxHooks";
 import { IProduct } from "../../types/IProduct";
+import { useAppSelector } from "../../hooks/reduxHooks";
+import ProjectBodyAdminButton from "./ProjectBodyAdminButton";
 
 export default function ProductBody(): JSX.Element {
-  const product: IProduct = useAppSelector(
-    (state) => state.products.single[0]
-  );
+  const product: IProduct = useAppSelector((state) => state.products.single[0]);
 
   return (
     <div>
@@ -21,7 +20,7 @@ export default function ProductBody(): JSX.Element {
           <Typography color="text.secondary" overflow="auto" variant="h3">
             {product.title}
           </Typography>
-          <ImageList sx={{ width: "80%"}} cols={3} >
+          <ImageList sx={{ width: "80%" }} cols={3}>
             {product.images.map((item: string) => (
               <ImageListItem key={item}>
                 <img
@@ -48,6 +47,7 @@ export default function ProductBody(): JSX.Element {
               {product.description}
             </Typography>
           </Box>
+              <ProjectBodyAdminButton product={product} />
         </Stack>
       ) : (
         <h5>Loading</h5>
