@@ -8,7 +8,7 @@ import {
 
 import { IProduct } from "../../types/IProduct";
 import { useAppSelector } from "../../hooks/reduxHooks";
-import ProjectBodyAdminButton from "./ProjectBodyAdminButton";
+import ProductBodyAdminButton from "./ProductBodyAdminButton";
 
 export default function ProductBody(): JSX.Element {
   const product: IProduct = useAppSelector((state) => state.products.single[0]);
@@ -32,7 +32,6 @@ export default function ProductBody(): JSX.Element {
               </ImageListItem>
             ))}
           </ImageList>
-
           <Typography variant="h5" color="text.secondary" overflow="auto">
             {product.category.name}
           </Typography>
@@ -47,7 +46,7 @@ export default function ProductBody(): JSX.Element {
               {product.description}
             </Typography>
           </Box>
-              <ProjectBodyAdminButton product={product} />
+              <ProductBodyAdminButton product={product} />
         </Stack>
       ) : (
         <h5>Loading</h5>

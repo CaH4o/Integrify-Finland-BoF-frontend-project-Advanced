@@ -5,6 +5,7 @@ import { IProduct } from "../../types/IProduct";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { productsDelete } from "../../api/productsWorker";
 import { useNavigate } from "react-router-dom";
+import ProductBodyModal from "./ProductBodyModal";
 
 export default function ProjectBodyAdminButton(props: {
   product: IProduct;
@@ -24,20 +25,12 @@ export default function ProjectBodyAdminButton(props: {
 
   return (
     <Box display="flex" gap="1rem">
-      <Button
-        color="success"
-        variant="outlined"
-        sx={{ display: rights.products.create ? "block" : "none" }}
-      >
-        Create a new product
-      </Button>
-      <Button
-        color="info"
-        variant="outlined"
-        sx={{ display: rights.products.update ? "block" : "none" }}
-      >
-        Update the product
-      </Button>
+      <Box sx={{ display: rights.products.create ? "block" : "none" }}>
+        <ProductBodyModal option="create" />
+      </Box>
+      <Box sx={{ display: rights.products.update ? "block" : "none" }}>
+        <ProductBodyModal option="update" product={props.product} />
+      </Box>
       <Button
         color="warning"
         variant="outlined"
