@@ -7,17 +7,16 @@ import { productsDelete } from "../../api/productsWorker";
 import { useNavigate } from "react-router-dom";
 import ProductBodyModal from "./ProductBodyModal";
 
-export default function ProjectBodyAdminButton(props: {
-  product: IProduct;
-}): JSX.Element {
+export default function ProjectBodyAdminButton(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const product: IProduct = useAppSelector((state) => state.products.single);
   const rights: tRight = useAppSelector((state) => state.credential.rights);
 
   function hendleDelete() {
     dispatch(
       productsDelete(
-        `https://api.escuelajs.co/api/v1/products/${props.product.id}`
+        `https://api.escuelajs.co/api/v1/products/${product.id}`
       )
     );
     navigate("..");
@@ -29,7 +28,7 @@ export default function ProjectBodyAdminButton(props: {
         <ProductBodyModal option="create" />
       </Box>
       <Box sx={{ display: rights.products.update ? "block" : "none" }}>
-        <ProductBodyModal option="update" product={props.product} />
+        <ProductBodyModal option="update"/>
       </Box>
       <Button
         color="warning"

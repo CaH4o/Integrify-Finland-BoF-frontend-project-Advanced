@@ -9,12 +9,13 @@ import {
   productsPut,
   productsDelete,
   categoriesGet,
+  initProduct,
 } from "../../api/productsWorker";
 
 const initialState: IProductState = {
   backUp: [],
   present: [],
-  single: [],
+  single: initProduct(),
   categories: [],
   loading: false,
   error: false,
@@ -48,8 +49,8 @@ const productsSlice = createSlice({
         }
       });
 
-      if (state.single.length && action.payload === state.single[0].id) {
-        state.single[0].favorite = !state.single[0].favorite;
+      if (state.single && action.payload === state.single.id) {
+        state.single.favorite = !state.single.favorite;
       }
     },
     productsSortByCategories(state: IProductState) {
@@ -152,12 +153,10 @@ const productsSlice = createSlice({
         ) => {
           if (Array.isArray(action.payload)) {
             state.backUp = action.payload.map((product: IProduct) => {
-              return { ...product, favorit: false };
+              return { ...product, favorite: false };
             });
           } else {
-            state.single = [action.payload].map((product: IProduct) => {
-              return { ...product, favorit: false };
-            });
+            state.single = { ...action.payload, favorite: false };
           }
           state.present = JSON.parse(JSON.stringify(state.backUp));
           state.loading = false;
@@ -192,6 +191,21 @@ const productsSlice = createSlice({
         state.loading = true;
       })
       .addCase(categoriesGet.rejected, (state: IProductState) => {
+        state.loading = false;
+        state.error = true;
+      });
+    builder
+      .addCase(
+        productsPost.fulfilled,
+        (state: IProductState, action: PayloadAction<IProduct>) => {
+          state.single = { ...action.payload, favorite: false };
+          state.loading = false;
+        }
+      )
+      .addCase(productsPost.pending, (state: IProductState) => {
+        state.loading = true;
+      })
+      .addCase(productsPost.rejected, (state: IProductState) => {
         state.loading = false;
         state.error = true;
       });

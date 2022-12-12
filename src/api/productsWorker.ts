@@ -1,12 +1,16 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { IProduct } from "../types/IProduct";
+import { IProductCreate, IProduct } from "../types/IProduct";
+
+const urls: { [key: string]: string } = {
+  productCreate: "https://api.escuelajs.co/api/v1/products/",
+};
 
 export const productsPost = createAsyncThunk(
-  "productsPost",
-  async function ({ url, data }: { url: string; data: IProduct }) {
-    const response = await axios.post(url, data);
+  "productsCreate",
+  async function (data: IProductCreate) {
+    const response = await axios.post(urls.productCreate, data);
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
     } else {
@@ -62,3 +66,19 @@ export const categoriesGet = createAsyncThunk(
     }
   }
 );
+
+export function initProduct(): IProduct {
+  return {
+    id: 0,
+    title: "",
+    description: "",
+    price: 0,
+    images: [],
+    favorite: false,
+    category: {
+      id: 1,
+      name: "",
+      image: "",
+    },
+  };
+}

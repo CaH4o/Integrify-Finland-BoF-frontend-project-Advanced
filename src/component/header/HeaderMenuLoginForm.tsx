@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import {
+  Box,
   Button,
   Input,
   InputLabel,
@@ -62,7 +63,9 @@ function HeaderMenuLoginForm(params: IPHeaderMenuLoginForm): JSX.Element {
     setCredentialsValues(initCredentialsValues());
   }
 
-  async function hendelSubmit() {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
     const { name, email, password } = {
       ...credentialsValue,
     };
@@ -94,7 +97,13 @@ function HeaderMenuLoginForm(params: IPHeaderMenuLoginForm): JSX.Element {
   }
 
   return (
-    <>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      display="flex"
+      flexDirection="column"
+      gap="1rem"
+    >
       <Typography color="primary" textAlign="center">
         {mode === "login"
           ? "Please enter your email and password"
@@ -156,8 +165,7 @@ function HeaderMenuLoginForm(params: IPHeaderMenuLoginForm): JSX.Element {
         </Typography>
       )}
       <Button
-        type="button"
-        onClick={hendelSubmit}
+        type="submit"
         variant="contained"
         endIcon={<SendIcon />}
         sx={{ m: "1rem" }}
@@ -173,10 +181,10 @@ function HeaderMenuLoginForm(params: IPHeaderMenuLoginForm): JSX.Element {
         }}
       >
         {mode === "registration"
-          ? "You have an account"
+          ? "I have an account"
           : "Create an new accaunt"}
       </Button>
-    </>
+    </Box>
   );
 }
 

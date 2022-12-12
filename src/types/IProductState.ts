@@ -4,7 +4,7 @@ import { IProduct } from "./IProduct";
 export interface IProductState {
   backUp: IProduct[];
   present: IProduct[];
-  single: IProduct[];
+  single: IProduct;
   categories: ICategory[];
   loading: boolean;
   error: boolean;

@@ -11,7 +11,7 @@ import { useAppSelector } from "../../hooks/reduxHooks";
 import ProductBodyAdminButton from "./ProductBodyAdminButton";
 
 export default function ProductBody(): JSX.Element {
-  const product: IProduct = useAppSelector((state) => state.products.single[0]);
+  const product: IProduct = useAppSelector((state) => state.products.single);
 
   return (
     <div>
@@ -21,8 +21,8 @@ export default function ProductBody(): JSX.Element {
             {product.title}
           </Typography>
           <ImageList sx={{ width: "80%" }} cols={3}>
-            {product.images.map((item: string) => (
-              <ImageListItem key={item}>
+            {product.images.map((item: string, index: number) => (
+              <ImageListItem key={index}>
                 <img
                   src={`${item}?w=164&h=164&fit=crop&auto=format`}
                   srcSet={`${item}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
@@ -46,7 +46,7 @@ export default function ProductBody(): JSX.Element {
               {product.description}
             </Typography>
           </Box>
-              <ProductBodyAdminButton product={product} />
+          <ProductBodyAdminButton />
         </Stack>
       ) : (
         <h5>Loading</h5>
