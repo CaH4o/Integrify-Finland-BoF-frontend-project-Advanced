@@ -2,18 +2,43 @@ import { IconButton, Badge } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { IProduct } from "../../types/IProduct";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { IProductState } from "../../types/IProductState";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import {
+  productsToggleFavorite,
+  productUpdatePresent,
+} from "../../redux/reducers/products";
 
 export default function HeaderMenuFavorit(): JSX.Element {
-  const favNo: number = useAppSelector(function (state) {
-    return state.products.backUp;
-  }).reduce(function (prev: number, product: IProduct) {
+  const dispatch = useAppDispatch();
+  const productState: IProductState = useAppSelector(function (state) {
+    return state.products;
+  });
+  const favoriteNo: number = productState.backUp.reduce(function (
+    prev: number,
+    product: IProduct
+  ) {
     return product.favorite ? ++prev : prev;
-  }, 0);
+  },
+  0);
+  const favoriteMode: "on" | "off" = productState.filters.favorite;
+
+  function handleToggleFavorit() {
+    dispatch(productsToggleFavorite());
+    dispatch(productUpdatePresent());
+  }
 
   return (
-    <IconButton size="large" aria-label="show favorites" color="inherit">
-      <Badge badgeContent={favNo} color="info">
+    <IconButton
+      size="large"
+      aria-label="show favorites"
+      color={favoriteMode === "on" ? "error" : "inherit"}
+      onClick={handleToggleFavorit}
+    >
+      <Badge
+        badgeContent={favoriteNo}
+        color={favoriteMode === "on" ? "warning" : "info"}
+      >
         <FavoriteIcon />
       </Badge>
     </IconButton>

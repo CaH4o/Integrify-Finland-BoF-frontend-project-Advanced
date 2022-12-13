@@ -1,16 +1,18 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { IProductCreate, IProduct } from "../types/IProduct";
+import { IProductCreate, IProductUpdate, IProduct } from "../types/IProduct";
 
+const lsPrdName: string = "otiv1ecomertialsitetokenforproductsinlocalstorage";
 const urls: { [key: string]: string } = {
-  productCreate: "https://api.escuelajs.co/api/v1/products/",
+  products: "https://api.escuelajs.co/api/v1/products/",
+  categories: "https://api.escuelajs.co/api/v1/categories",
 };
 
 export const productsPost = createAsyncThunk(
   "productsCreate",
   async function (data: IProductCreate) {
-    const response = await axios.post(urls.productCreate, data);
+    const response = await axios.post(urls.products, data);
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
     } else {
@@ -21,8 +23,8 @@ export const productsPost = createAsyncThunk(
 
 export const productsGet = createAsyncThunk(
   "productsGet",
-  async function (url: string) {
-    const response = await axios.get(url);
+  async function (id: string) {
+    const response = await axios.get(urls.products + id);
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
     } else {
@@ -32,12 +34,13 @@ export const productsGet = createAsyncThunk(
 );
 
 export const productsPut = createAsyncThunk(
-  "productsPut",
-  async function ({ url, data }: { url: string; data: IProduct }) {
-    const response = await axios.put(url, data);
+  "productsUpdate",
+  async function (data: IProductUpdate) {
+    const response = await axios.put(urls.products + data.id.toString(), data);
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
     } else {
+      console.log(JSON.stringify(response.data));
       return response.data;
     }
   }
@@ -45,8 +48,8 @@ export const productsPut = createAsyncThunk(
 
 export const productsDelete = createAsyncThunk(
   "productsDelete",
-  async function (url: string) {
-    const response = await axios.delete(url);
+  async function (id: number) {
+    const response = await axios.delete(urls.products + id);
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
     } else {
@@ -57,8 +60,8 @@ export const productsDelete = createAsyncThunk(
 
 export const categoriesGet = createAsyncThunk(
   "categoriesGet",
-  async function (url: string) {
-    const response = await axios.get(url);
+  async function () {
+    const response = await axios.get(urls.categories);
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
     } else {
@@ -81,4 +84,32 @@ export function initProduct(): IProduct {
       image: "",
     },
   };
+}
+
+export function setLocalProductFevorit(product: IProduct[]) {
+  const sendProduct: IProduct[] = product.filter(function (p: IProduct) {
+    return p.favorite;
+  });
+  localStorage.setItem(lsPrdName, JSON.stringify(sendProduct));
+}
+
+export function getLocalProductFevorit(): IProduct[] {
+  return JSON.parse(localStorage.getItem(lsPrdName) || "[]");
+}
+
+export function setLocalProductFevoritSingle(product: IProduct) {
+  if (!product.id || !product.favorite) return;
+
+  const sendProduct: IProduct[] = getLocalProductFevorit();
+  const index: number = sendProduct.findIndex(function (p: IProduct) {
+    return p.id === product.id;
+  });
+
+  if (index === -1) {
+    sendProduct.push(product);
+  } else {
+    sendProduct[index].favorite = product.favorite;
+  }
+
+  localStorage.setItem(lsPrdName, JSON.stringify(sendProduct));
 }

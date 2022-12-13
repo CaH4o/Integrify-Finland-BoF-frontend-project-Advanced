@@ -20,8 +20,8 @@ export default function HomePage() {
   const dispatch = useAppDispatch();
 
   useEffect(function () {
-    dispatch(productsGet("https://api.escuelajs.co/api/v1/products"));
-    dispatch(categoriesGet("https://api.escuelajs.co/api/v1/categories"));
+    dispatch(productsGet(""));
+    dispatch(categoriesGet());
   }, []);
 
   return (

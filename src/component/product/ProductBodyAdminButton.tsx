@@ -14,11 +14,7 @@ export default function ProjectBodyAdminButton(): JSX.Element {
   const rights: tRight = useAppSelector((state) => state.credential.rights);
 
   function hendleDelete() {
-    dispatch(
-      productsDelete(
-        `https://api.escuelajs.co/api/v1/products/${product.id}`
-      )
-    );
+    dispatch(productsDelete(product.id));
     navigate("..");
   }
 
@@ -28,7 +24,7 @@ export default function ProjectBodyAdminButton(): JSX.Element {
         <ProductBodyModal option="create" />
       </Box>
       <Box sx={{ display: rights.products.update ? "block" : "none" }}>
-        <ProductBodyModal option="update"/>
+        <ProductBodyModal option="update" />
       </Box>
       <Button
         color="warning"

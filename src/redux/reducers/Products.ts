@@ -7,7 +7,6 @@ import {
   productsPost,
   productsGet,
   productsPut,
-  productsDelete,
   categoriesGet,
   initProduct,
 } from "../../api/productsWorker";
@@ -27,6 +26,7 @@ const initialState: IProductState = {
   filters: {
     search: "",
     categories: [],
+    favorite: "off",
   },
 };
 
@@ -132,6 +132,12 @@ const productsSlice = createSlice({
         });
       }
 
+      if (state.filters.favorite === "on") {
+        products = products.filter(function (p: IProduct) {
+          return p.favorite;
+        });
+      }
+
       state.present = products;
       state.page = 1;
     },
@@ -142,6 +148,9 @@ const productsSlice = createSlice({
       });
       state.present = JSON.parse(JSON.stringify(state.backUp));
     },
+    productsToggleFavorite(state: IProductState) {
+      state.filters.favorite = state.filters.favorite === "on" ? "off" : "on";
+    },
   },
   extraReducers: function (builder) {
     builder
@@ -151,12 +160,22 @@ const productsSlice = createSlice({
           state: IProductState,
           action: PayloadAction<IProduct[] | IProduct>
         ) => {
+          const favorite: number[] = [];
+
+          state.backUp.forEach(function (p: IProduct) {
+            if (p.favorite) favorite.push(p.id);
+          });
+
           if (Array.isArray(action.payload)) {
             state.backUp = action.payload.map((product: IProduct) => {
-              return { ...product, favorite: false };
+              return favorite.includes(product.id)
+                ? { ...product, favorite: true }
+                : { ...product, favorite: false };
             });
           } else {
-            state.single = { ...action.payload, favorite: false };
+            state.single = favorite.includes(action.payload.id)
+              ? { ...action.payload, favorite: true }
+              : { ...action.payload, favorite: false };
           }
           state.present = JSON.parse(JSON.stringify(state.backUp));
           state.loading = false;
@@ -209,6 +228,21 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = true;
       });
+    builder
+      .addCase(
+        productsPut.fulfilled,
+        (state: IProductState, action: PayloadAction<IProduct>) => {
+          state.single = { ...action.payload, favorite: false };
+          state.loading = false;
+        }
+      )
+      .addCase(productsPut.pending, (state: IProductState) => {
+        state.loading = true;
+      })
+      .addCase(productsPut.rejected, (state: IProductState) => {
+        state.loading = false;
+        state.error = true;
+      });
   },
 });
 
@@ -222,5 +256,6 @@ export const {
   productsSearch,
   productUpdatePresent,
   productReset,
+  productsToggleFavorite,
 } = productsSlice.actions;
 export default productsReducer;

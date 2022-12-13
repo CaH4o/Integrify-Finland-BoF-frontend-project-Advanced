@@ -35,10 +35,10 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
       ? product.images[index]
       : product.images[0];
   }
-  function hendleFavorit() {
+  function handleFavorit() {
     dispatch(productFavoritAddRemove(product.id));
   }
-  function hendleCart() {
+  function handleCart() {
     dispatch(cartProductAdd(product));
   }
 
@@ -89,7 +89,7 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
         </CardContent>
       </Box>
       <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button type="button" size="small" onClick={hendleCart}>
+        <Button type="button" size="small" onClick={handleCart}>
           <ShoppingCartIcon />
         </Button>
         <Link
@@ -98,7 +98,7 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
         >
           <Button size="small">Discription</Button>
         </Link>
-        <Button type="button" size="small" onClick={hendleFavorit}>
+        <Button type="button" size="small" onClick={handleFavorit}>
           {product.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </Button>
       </CardActions>

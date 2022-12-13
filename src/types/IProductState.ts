@@ -20,4 +20,5 @@ export type tSortDir = {
 export type tFilters = {
   search: string;
   categories: ICategoryState[];
+  favorite: "on" | "off";
 };

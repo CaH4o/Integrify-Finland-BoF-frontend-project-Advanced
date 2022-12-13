@@ -4,14 +4,23 @@ import {
   Typography,
   ImageListItem,
   ImageList,
+  Button,
 } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import { IProduct } from "../../types/IProduct";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { productFavoritAddRemove } from "../../redux/reducers/products";
 import ProductBodyAdminButton from "./ProductBodyAdminButton";
 
 export default function ProductBody(): JSX.Element {
+  const dispatch = useAppDispatch();
   const product: IProduct = useAppSelector((state) => state.products.single);
+
+  function handleFavorit() {
+    dispatch(productFavoritAddRemove(product.id));
+  }
 
   return (
     <div>
@@ -19,6 +28,9 @@ export default function ProductBody(): JSX.Element {
         <Stack spacing={2} alignItems="center" margin="1rem">
           <Typography color="text.secondary" overflow="auto" variant="h3">
             {product.title}
+            <Button type="button" size="large" onClick={handleFavorit}>
+              {product.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </Button>
           </Typography>
           <ImageList sx={{ width: "80%" }} cols={3}>
             {product.images.map((item: string, index: number) => (

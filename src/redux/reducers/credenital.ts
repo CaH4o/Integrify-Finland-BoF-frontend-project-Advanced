@@ -40,6 +40,8 @@ const credenitalsSlice = createSlice({
       .addCase(credentialPostGet.rejected, function (state: ICredentialState) {
         state.loading = false;
         state.error = true;
+        setLocalCredential();
+        console.log("Current user token has expired and cleared");
       })
       .addCase(credentialPostGet.pending, function (state: ICredentialState) {
         state.loading = true;

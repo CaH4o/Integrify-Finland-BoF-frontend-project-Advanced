@@ -5,10 +5,19 @@ import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 import { IPProductBodyModal } from "../../types/props/IPProductBodyModal";
-import { IProduct, IProductClear, IProductCreate } from "../../types/IProduct";
+import {
+  IProduct,
+  IProductClear,
+  IProductCreate,
+  IProductUpdate,
+} from "../../types/IProduct";
 import { ICategory } from "../../types/ICategoty";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { initProduct, productsPost } from "../../api/productsWorker";
+import {
+  initProduct,
+  productsPost,
+  productsPut,
+} from "../../api/productsWorker";
 
 export default function ProductBodyModalForm(
   props: IPProductBodyModal
@@ -82,6 +91,61 @@ export default function ProductBodyModalForm(
       navigate("..");
       props.handleClose!();
     } else {
+      const p: IProductUpdate = {
+        id: product.id,
+      };
+
+      if (product.title !== productState.title) {
+        p.title = product.title;
+      }
+      if (product.description !== productState.description) {
+        p.description = product.description;
+      }
+      if (product.price !== productState.price) {
+        p.price = product.price;
+      }
+      if (product.category.id !== productState.category.id) {
+        p.category = product.category;
+        p.categoryId = product.category.id;
+      }
+      {
+        let isImage: boolean = false;
+        for (let i = 0; i < productState.images.length; ++i) {
+          isImage = !product.images.some(function (elem) {
+            return elem === productState.images[i];
+          });
+
+          if (isImage) break;
+
+          const countPrev: number = productState.images.reduce(function (
+            prev: number,
+            curr: string
+          ) {
+            return curr === productState.images[i] ? prev + 1 : prev;
+          },
+          0);
+          const countCurr: number = product.images.reduce(function (
+            prev: number,
+            curr: string
+          ) {
+            return curr === productState.images[i] ? prev + 1 : prev;
+          },
+          0);
+
+          if (countPrev !== countCurr) {
+            isImage = true;
+            break;
+          }
+        }
+
+        if (isImage) {
+          p.images = product.images;
+        }
+      }
+
+      console.log(p);
+      dispatch(productsPut(p));
+      props.handleClose!();
     }
   }
 

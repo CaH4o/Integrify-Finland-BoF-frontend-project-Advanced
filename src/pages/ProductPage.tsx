@@ -13,8 +13,8 @@ export default function ProductPage(): JSX.Element {
 
   useEffect(
     function () {
-      dispatch(productsGet(`https://api.escuelajs.co/api/v1/products/${id}`));
-      dispatch(categoriesGet("https://api.escuelajs.co/api/v1/categories"));
+      dispatch(productsGet(id));
+      dispatch(categoriesGet());
     },
     [id]
   );
