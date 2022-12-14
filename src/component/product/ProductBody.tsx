@@ -48,7 +48,7 @@ export default function ProductBody(): JSX.Element {
             {product.category.name}
           </Typography>
           <Box>
-            <Typography gutterBottom variant="h4" component="div">
+            <Typography gutterBottom variant="h4" color="text.secondary" component="div">
               {new Intl.NumberFormat("fi", {
                 style: "currency",
                 currency: "EUR",

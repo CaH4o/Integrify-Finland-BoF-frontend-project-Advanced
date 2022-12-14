@@ -7,7 +7,7 @@ import HeaderMenu from "./HeaderMenu";
 
 export default function Header(): JSX.Element {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }} >
       <AppBar position="static">
         <Toolbar>
           <Link to=".." style={{ color: "inherit", textDecoration: "inherit" }}>

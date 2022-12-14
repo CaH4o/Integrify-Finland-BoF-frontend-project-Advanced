@@ -19,7 +19,6 @@ export const usersGet = createAsyncThunk(
   }
 );
 
-
 export async function createUser(user: IUser) {
   const response = await axios.post(
     "https://api.escuelajs.co/api/v1/users/",

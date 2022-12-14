@@ -17,7 +17,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { IPHomeCard } from "../../types/props/IPHomeCard";
 import { IProduct } from "../../types/IProduct";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { productFavoritAddRemove } from "../../redux/reducers/products";
+import {
+  productFavoritAddRemove,
+  productUpdatePresent,
+} from "../../redux/reducers/products";
 import { cartProductAdd } from "../../redux/reducers/cart";
 
 export default function HomeCard(params: IPHomeCard): JSX.Element {
@@ -37,6 +40,7 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
   }
   function handleFavorit() {
     dispatch(productFavoritAddRemove(product.id));
+    dispatch(productUpdatePresent());
   }
   function handleCart() {
     dispatch(cartProductAdd(product));

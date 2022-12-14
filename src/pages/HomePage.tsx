@@ -10,7 +10,6 @@ import HomeAside from "../component/home/HomeAside";
 import HomeLinearProgress from "../component/home/HomeLinearProgress";
 
 const style = {
-  height: "100",
   minWidth: "200px",
   padding: "1rem 0",
   bgcolor: "secondary.main",
@@ -25,25 +24,25 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
-      <Grid container direction="column" spacing={2} sx={{ m: 0 }}></Grid>
+    <>
+      <Grid container direction="column"></Grid>
       <Grid item xs={12}>
         <Header />
       </Grid>
       <Grid item xs={12}>
         <HomeLinearProgress />
       </Grid>
-      <Grid container item xs={12}>
-        <Grid item md={2} sx={style}>
+      <Grid container item xs={12} minHeight="83.5vh">
+        <Grid item md={2} sx={style} >
           <HomeAside />
         </Grid>
         <Grid item md={10}>
           <HomeBody />
         </Grid>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} >
         <Footer />
       </Grid>
-    </div>
+    </>
   );
 }

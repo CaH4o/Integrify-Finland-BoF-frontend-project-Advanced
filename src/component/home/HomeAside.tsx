@@ -8,10 +8,10 @@ export default function HomeAside(): JSX.Element {
   return (
     <>
       <HomeAsideSearch />
+      <HomeAsideResetButton />
       <HomeAsideSortPrice />
       <HomeAsideSortCategory />
       <HomeAsideSelectedCataroty />
-      <HomeAsideResetButton />
     </>
   );
 }

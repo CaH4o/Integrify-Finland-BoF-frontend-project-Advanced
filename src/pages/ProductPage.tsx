@@ -1,11 +1,12 @@
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-import Footer from "../component/footer/Footer";
-import Header from "../component/header/Header";
-import ProductBody from "../component/product/ProductBody";
 import { useAppDispatch } from "../hooks/reduxHooks";
 import { categoriesGet, productsGet } from "../api/productsWorker";
-import { useParams } from "react-router-dom";
+import Header from "../component/header/Header";
+import ProductBody from "../component/product/ProductBody";
+import Footer from "../component/footer/Footer";
+import { Box, Stack } from "@mui/material";
 
 export default function ProductPage(): JSX.Element {
   const id: string = useParams().id || "";
@@ -20,10 +21,16 @@ export default function ProductPage(): JSX.Element {
   );
 
   return (
-    <div>
-      <Header />
-      <ProductBody />
-      <Footer />
-    </div>
+    <Stack>
+      <Box position="fixed" top="0" overflow="hidden" width="100%">
+        <Header />
+      </Box>
+      <Box marginTop="64px" position="absolute" width="100%"  sx={{backgroundColor:"background.default", height:"90%"}}>
+        <ProductBody />
+      </Box>
+      <Box position="fixed" bottom="0" overflow="hidden" width="100%">
+        <Footer />
+      </Box>
+    </Stack>
   );
 }

@@ -9,9 +9,8 @@ export default function HomeAsideResetButton(): JSX.Element {
   return (
     <Box>
       <Button
-        variant="outlined"
-        color="info"
-        sx={{ width: "50%" }}
+        variant="contained"
+        sx={{ width: "80%", color: "default", m: "1rem" }}
         onClick={() => dispatch(productReset())}
       >
         Reset

@@ -17,7 +17,7 @@ const initialState: IThemeState = {
   dark: {
     mode: "dark",
     primary: { main: "#9F73AB" },
-    secondary: { main: "#3F3B6C" },
+    secondary: { main:"#24214d"},
     divider: "#624F82",
     text: {
       primary: "#A3C7D6",

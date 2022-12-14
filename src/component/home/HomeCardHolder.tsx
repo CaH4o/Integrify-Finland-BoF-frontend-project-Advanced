@@ -13,7 +13,7 @@ export default function HomeCardHolder(): JSX.Element {
   return (
     <>
       {!presentProducts.length ? (
-        <Typography variant="body2">Sorry. No product found</Typography>
+        <Typography variant="body2" color="primary">Sorry. No product found</Typography>
       ) : (
         <Grid container spacing="2rem">
           {presentProducts

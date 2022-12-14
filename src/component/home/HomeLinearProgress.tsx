@@ -6,6 +6,8 @@ export default function HomeLinearProgress() {
   const loading: boolean = useAppSelector((state) => state.products.loading);
 
   return (
-    <Box height="0.5rem">{loading && <LinearProgress color="primary" />}</Box>
+    <Box height="0.2rem" position="relative" bottom="0.5rem">
+      {loading && <LinearProgress sx={{height:10}}  color="primary" />}
+    </Box>
   );
 }

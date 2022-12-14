@@ -99,6 +99,9 @@ const productsSlice = createSlice({
         }
       });
     },
+    productsToggleFavorite(state: IProductState) {
+      state.filters.favorite = state.filters.favorite === "on" ? "off" : "on";
+    },
     productUpdatePresent(state: IProductState) {
       let products: IProduct[] = state.backUp;
       const search: string = state.filters.search;
@@ -146,10 +149,8 @@ const productsSlice = createSlice({
       state.filters.categories.forEach(function (c: ICategoryState) {
         c.checked = false;
       });
+      state.filters.favorite = "off";
       state.present = JSON.parse(JSON.stringify(state.backUp));
-    },
-    productsToggleFavorite(state: IProductState) {
-      state.filters.favorite = state.filters.favorite === "on" ? "off" : "on";
     },
   },
   extraReducers: function (builder) {
