@@ -28,7 +28,7 @@ const cart = createSlice({
         if (productIndex !== -1) {
           const count: number = products[productIndex].count;
 
-          if (count > 0) {
+          if (count > 1) {
             --state.carts[userIndex].product[productIndex].count;
           } else {
             state.carts[userIndex].product.splice(productIndex, 1);
