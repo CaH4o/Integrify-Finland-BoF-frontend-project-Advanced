@@ -16,6 +16,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { IPHomeCard } from "../../types/props/IPHomeCard";
 import { IProduct } from "../../types/IProduct";
+import { IProductCart, IUserProduct } from "../../types/ICartState";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
   productFavoritAddRemove,
@@ -47,9 +48,12 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
     dispatch(productUpdatePresent());
   }
   function handleCart() {
-    dispatch(
-      cartProductAdd({ userEmail, product: [{ ...product, count: 1 }] })
-    );
+    const productCart: IProductCart = { ...product, count: 1 };
+    const userProduct: IUserProduct = {
+      userEmail,
+      product: productCart,
+    };
+    dispatch(cartProductAdd(userProduct));
   }
 
   return (

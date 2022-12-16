@@ -29,13 +29,14 @@ export default function HomePage() {
       >
         <Box
           width="15%"
+          position="fixed" top="80"
           padding="1rem 0"
           bgcolor="secondary.main"
-          minHeight="75vh"
+          minHeight="78vh"
         >
           <HomeAside />
         </Box>
-        <Box width="85%">
+        <Box width="85%" marginLeft="15%">
           <HomeBody />
         </Box>
       </Box>
