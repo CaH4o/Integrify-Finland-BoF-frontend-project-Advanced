@@ -21,12 +21,18 @@ export default function ProductPage(): JSX.Element {
   );
 
   return (
-    <Stack>
+    <Stack >
+      <Box
+        margin="80px 0"
+        position="relative"
+        width="100%"
+        minHeight="80vh"
+        sx={{ backgroundColor: "background.default" }}
+      >
+        <ProductBody />
+      </Box>
       <Box position="fixed" top="0" overflow="hidden" width="100%">
         <Header />
-      </Box>
-      <Box marginTop="64px" position="absolute" width="100%"  sx={{backgroundColor:"background.default", height:"90%"}}>
-        <ProductBody />
       </Box>
       <Box position="fixed" bottom="0" overflow="hidden" width="100%">
         <Footer />

@@ -11,9 +11,13 @@ import {
   setLocalProductFevorit,
   initProduct,
   setLocalProductFevoritSingle,
+  getLocalProductCart,
+  setLocalProductCart,
 } from "../api/productsWorker";
+import { ICartState } from "../types/ICartState";
 
 const backUp: IProduct[] = getLocalProductFevorit();
+const cart: ICartState = getLocalProductCart();
 
 const store = configureStore({
   reducer: {
@@ -24,6 +28,7 @@ const store = configureStore({
     cart: cartReducer,
   },
   preloadedState: {
+    cart,
     products: {
       backUp,
       present: [],
@@ -45,6 +50,7 @@ const store = configureStore({
 store.subscribe(function () {
   setLocalProductFevorit(store.getState().products.backUp);
   setLocalProductFevoritSingle(store.getState().products.single);
+  setLocalProductCart(store.getState().cart);
 });
 
 export type RootState = ReturnType<typeof store.getState>;

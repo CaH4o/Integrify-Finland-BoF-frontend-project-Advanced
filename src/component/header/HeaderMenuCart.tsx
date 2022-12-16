@@ -14,15 +14,15 @@ export default function HeaderMenuCart(): JSX.Element {
   const carts: ICartState = useAppSelector(function (state) {
     return state.cart;
   });
-  const users: ICredentialState = useAppSelector(function (state) {
+  const user: ICredentialState = useAppSelector(function (state) {
     return state.credential;
   });
 
   useEffect(
     function () {
-      dispatch(cartUpdateNoProducts());
+      dispatch(cartUpdateNoProducts(user.user?.email || ""));
     },
-    [carts, users]
+    [carts, user]
   );
 
   function handleClick() {

@@ -1,4 +1,3 @@
-import { ICredential } from "./ICredential";
 import { IProduct } from "./IProduct";
 
 export interface IProductCart extends IProduct {
@@ -6,7 +5,7 @@ export interface IProductCart extends IProduct {
 }
 
 export interface ICart {
-  user: ICredential;
+  userEmail: string;
   product: IProductCart[];
 }
 

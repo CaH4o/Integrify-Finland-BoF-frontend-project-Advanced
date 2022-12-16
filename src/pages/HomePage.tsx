@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Grid } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 import { useAppDispatch } from "../hooks/reduxHooks";
 import { categoriesGet, productsGet } from "../api/productsWorker";
@@ -8,12 +8,6 @@ import HomeBody from "../component/home/HomeBody";
 import Header from "../component/header/Header";
 import HomeAside from "../component/home/HomeAside";
 import HomeLinearProgress from "../component/home/HomeLinearProgress";
-
-const style = {
-  minWidth: "200px",
-  padding: "1rem 0",
-  bgcolor: "secondary.main",
-};
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
@@ -24,25 +18,34 @@ export default function HomePage() {
   }, []);
 
   return (
-    <>
-      <Grid container direction="column"></Grid>
-      <Grid item xs={12}>
-        <Header />
-      </Grid>
-      <Grid item xs={12}>
-        <HomeLinearProgress />
-      </Grid>
-      <Grid container item xs={12} minHeight="83.5vh">
-        <Grid item md={2} sx={style} >
+    <Stack>
+      <Box
+        margin="80px 0 90px 0"
+        position="relative"
+        width="100%"
+        minHeight="80vh"
+        sx={{ backgroundColor: "background.default" }}
+        display="flex"
+      >
+        <Box
+          width="15%"
+          padding="1rem 0"
+          bgcolor="secondary.main"
+          minHeight="75vh"
+        >
           <HomeAside />
-        </Grid>
-        <Grid item md={10}>
+        </Box>
+        <Box width="85%">
           <HomeBody />
-        </Grid>
-      </Grid>
-      <Grid item xs={12} >
+        </Box>
+      </Box>
+      <Box position="fixed" top="0" overflow="hidden" width="100%">
+        <Header />
+        <HomeLinearProgress />
+      </Box>
+      <Box position="fixed" bottom="0" overflow="hidden" width="100%">
         <Footer />
-      </Grid>
-    </>
+      </Box>
+    </Stack>
   );
 }

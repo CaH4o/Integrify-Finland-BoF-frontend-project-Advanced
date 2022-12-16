@@ -2,8 +2,10 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { IProductCreate, IProductUpdate, IProduct } from "../types/IProduct";
+import { ICartState } from "../types/ICartState";
 
 const lsPrdName: string = "otiv1ecomertialsitetokenforproductsinlocalstorage";
+const lsPrdCrt: string = "otiv1ecomertialsitetokenforcartsinlocalstorage";
 const urls: { [key: string]: string } = {
   products: "https://api.escuelajs.co/api/v1/products/",
   categories: "https://api.escuelajs.co/api/v1/categories",
@@ -112,4 +114,15 @@ export function setLocalProductFevoritSingle(product: IProduct) {
   }
 
   localStorage.setItem(lsPrdName, JSON.stringify(sendProduct));
+}
+
+export function setLocalProductCart(carts: ICartState) {
+  localStorage.setItem(lsPrdCrt, JSON.stringify(carts));
+}
+
+export function getLocalProductCart(): ICartState {
+  return JSON.parse(
+    localStorage.getItem(lsPrdCrt) ||
+      JSON.stringify({ carts: [], noProducts: 0 })
+  );
 }

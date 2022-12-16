@@ -16,7 +16,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import { IPHomeCard } from "../../types/props/IPHomeCard";
 import { IProduct } from "../../types/IProduct";
-import { useAppDispatch } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import {
   productFavoritAddRemove,
   productUpdatePresent,
@@ -26,8 +26,12 @@ import { cartProductAdd } from "../../redux/reducers/cart";
 export default function HomeCard(params: IPHomeCard): JSX.Element {
   const dispatch = useAppDispatch();
   const product: IProduct = params.product;
+  const userEmail: string =
+    useAppSelector(function (state) {
+      return state.credential.user?.email;
+    }) || "";
 
-  function hendleImag(
+  function handleImag(
     e: React.MouseEvent<HTMLImageElement, MouseEvent>,
     src: string[]
   ) {
@@ -43,7 +47,9 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
     dispatch(productUpdatePresent());
   }
   function handleCart() {
-    dispatch(cartProductAdd(product));
+    dispatch(
+      cartProductAdd({ userEmail, product: [{ ...product, count: 1 }] })
+    );
   }
 
   return (
@@ -72,7 +78,7 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
           image={product.images[0]}
           alt={product.title}
           onClick={(e) => {
-            hendleImag(e, product.images);
+            handleImag(e, product.images);
           }}
         />
         <CardContent>

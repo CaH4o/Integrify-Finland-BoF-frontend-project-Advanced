@@ -1,9 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { ICart, ICartState, IProductCart } from "../../types/ICartState";
-import { IProduct } from "../../types/IProduct";
-import { ICredential } from "../../types/ICredential";
-import { getLocalCredential } from "../../api/credenitalWorker";
 
 const initialState: ICartState = { carts: [], noProducts: 0 };
 
@@ -11,10 +8,9 @@ const cart = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    cartProductRemove(state: ICartState, action: PayloadAction<number>) {
-      const userCredential: ICredential = getLocalCredential();
+    cartProductRemove(state: ICartState, action: PayloadAction<ICart>) {
       const userIndex: number = state.carts.findIndex(function (c: ICart) {
-        return c.user.access_token === userCredential.access_token;
+        return c.userEmail === action.payload.userEmail;
       });
 
       if (userIndex !== -1) {
@@ -22,7 +18,7 @@ const cart = createSlice({
         const productIndex: number = products.findIndex(function (
           p: IProductCart
         ) {
-          return p.id === action.payload;
+          return p.id === action.payload.product[0].id;
         });
 
         if (productIndex !== -1) {
@@ -36,11 +32,9 @@ const cart = createSlice({
         }
       }
     },
-
-    cartProductAdd(state: ICartState, action: PayloadAction<IProduct>) {
-      const userCredential: ICredential = getLocalCredential();
+    cartProductAdd(state: ICartState, action: PayloadAction<ICart>) {
       const userIndex: number = state.carts.findIndex(function (c: ICart) {
-        return c.user.access_token === userCredential.access_token;
+        return c.userEmail === action.payload.userEmail;
       });
 
       if (userIndex !== -1) {
@@ -48,26 +42,21 @@ const cart = createSlice({
         const productIndex: number = products.findIndex(function (
           p: IProductCart
         ) {
-          return p.id === action.payload.id;
+          return p.id === action.payload.product[0].id;
         });
 
         if (productIndex === -1) {
-          state.carts[userIndex].product.push({ ...action.payload, count: 1 });
+          state.carts[userIndex].product.push(action.payload.product[0]);
         } else {
           ++state.carts[userIndex].product[productIndex].count;
         }
       } else {
-        state.carts.push({
-          user: userCredential,
-          product: [{ ...action.payload, count: 1 }],
-        });
+        state.carts.push(action.payload);
       }
     },
-
-    cartUpdateNoProducts(state: ICartState) {
-      const userCredential: ICredential = getLocalCredential();
+    cartUpdateNoProducts(state: ICartState, action: PayloadAction<string>) {
       const userIndex: number = state.carts.findIndex(function (c: ICart) {
-        return c.user.access_token === userCredential.access_token;
+        return c.userEmail === action.payload;
       });
       state.noProducts =
         userIndex === -1 ? 0 : state.carts[userIndex].product.length;
@@ -76,6 +65,9 @@ const cart = createSlice({
 });
 
 const cartReducer = cart.reducer;
-export const { cartProductRemove, cartProductAdd, cartUpdateNoProducts } =
-  cart.actions;
+export const {
+  cartProductRemove,
+  cartProductAdd,
+  cartUpdateNoProducts,
+} = cart.actions;
 export default cartReducer;
