@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   Box,
   TextField,
@@ -9,27 +9,22 @@ import {
   FormControl,
   SelectChangeEvent,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 import { IUser } from "../../types/IUser";
 import { tRight, tRole } from "../../types/ICredential";
+import { ICredentialState } from "../../types/ICredentialState";
 import { useAppSelector } from "../../hooks/reduxHooks";
 
 export default function ProfileBody(): JSX.Element {
-  const navigate = useNavigate();
-  const currentUser: IUser | undefined = useAppSelector(function (state) {
-    return state.credential.user;
+  const credential: ICredentialState = useAppSelector(function (state) {
+    return state.credential;
   });
-  const rights: tRight = useAppSelector(function (state) {
-    return state.credential.rights;
+  const users: IUser[] = useAppSelector(function (state) {
+    return state.users.users;
   });
+  const currentUser: IUser | undefined = credential.user;
+  const rights: tRight = credential.rights;
   const [user, setUser] = useState<IUser>(currentUser!);
-
-  useEffect(function () {
-    if (!currentUser) {
-      navigate("..");
-    }
-  }, [currentUser]);
 
   function hendleSubmit() {}
 
@@ -114,18 +109,26 @@ export default function ProfileBody(): JSX.Element {
                 value={user.role}
                 label="Role"
                 onChange={handleChangeSelect}
-                disabled={rights.users.create}
+                disabled={!rights.users.create}
               >
                 <MenuItem value="customer">customer</MenuItem>
                 <MenuItem value="admin">admin</MenuItem>
               </Select>
             </FormControl>
 
-            <Button disabled={rights.users.create}>Create</Button>
-            <Button disabled={rights.users.update}>Update</Button>
+            <Button disabled={!rights.users.create}>Create</Button>
+            <Button disabled={!rights.users.update}>Update</Button>
           </Box>
         </Box>
       )}
+
+      <Box component="div">
+        {!users.length || !rights.users.getAll
+          ? ""
+          : users.map(function (u: IUser) {
+              return <p>{u.name}</p>;
+            })}
+      </Box>
     </>
   );
 }

@@ -15,12 +15,21 @@ const usersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: function (build) {
-    build.addCase(
-      usersGet.fulfilled,
-      function (state: IUserState, action: PayloadAction<IUser[]>) {
-        state.users = action.payload;
-      }
-    );
+    build
+      .addCase(
+        usersGet.fulfilled,
+        function (state: IUserState, action: PayloadAction<IUser[]>) {
+          state.users = action.payload;
+          state.loading = false;
+        }
+      )
+      .addCase(usersGet.pending, function (state: IUserState) {
+        state.loading = true;
+      })
+      .addCase(usersGet.rejected, function (state: IUserState) {
+        state.error = true;
+        state.loading = false;
+      });
   },
 });
 

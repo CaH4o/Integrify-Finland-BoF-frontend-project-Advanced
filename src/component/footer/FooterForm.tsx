@@ -3,7 +3,7 @@ import { Box, TextField, Button } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 
 import { IUser } from "../../types/IUser";
-import { tMessageObj } from "../../types/messageObj";
+import { tMessageObj } from "../../types/IMessageObj";
 import { useAppSelector } from "../../hooks/reduxHooks";
 
 export default function FooterForm(): JSX.Element {
