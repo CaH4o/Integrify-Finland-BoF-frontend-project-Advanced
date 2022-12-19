@@ -30,11 +30,12 @@ export default function ProfilePage(): JSX.Element {
   return (
     <Stack>
       <Box
-        margin="80px 0"
+        margin="80px 0 100px 0"
         position="relative"
         width="100%"
         minHeight="80vh"
         sx={{ backgroundColor: "background.default" }}
+        zIndex="0"
       >
         <ProfileBody />
       </Box>

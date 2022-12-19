@@ -42,7 +42,6 @@ export const productsPut = createAsyncThunk(
     if (response.status >= 400) {
       throw new Error(response.status + " " + response.statusText);
     } else {
-      console.log(JSON.stringify(response.data));
       return response.data;
     }
   }

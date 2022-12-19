@@ -37,7 +37,7 @@ export default function FooterForm(): JSX.Element {
     event.preventDefault();
     if (messageObj.message && messageObj.email) {
       window.open(
-        `mailto:${messageObj.email}?subject="countries"&body=${messageObj.message}`
+        `mailto:${messageObj.email}?subject="E commerce website. Feeback sent."&body=${messageObj.message}`
       );
     }
   }

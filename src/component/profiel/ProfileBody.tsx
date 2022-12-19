@@ -1,35 +1,25 @@
 import { ChangeEvent, useState } from "react";
-import {
-  Box,
-  TextField,
-  MenuItem,
-  InputLabel,
-  Select,
-  Button,
-  FormControl,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Box, TextField, Button, Typography } from "@mui/material";
 
-import { IUser } from "../../types/IUser";
-import { tRight, tRole } from "../../types/ICredential";
+import { IUser, IUserUpdate } from "../../types/IUser";
+import { tRight } from "../../types/ICredential";
 import { ICredentialState } from "../../types/ICredentialState";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { userPut } from "../../api/usersWorker";
+import ProfileBodyUsers from "./ProfileBodyUsers";
 
 export default function ProfileBody(): JSX.Element {
+  const dispatch = useAppDispatch();
   const credential: ICredentialState = useAppSelector(function (state) {
     return state.credential;
-  });
-  const users: IUser[] = useAppSelector(function (state) {
-    return state.users.users;
   });
   const currentUser: IUser | undefined = credential.user;
   const rights: tRight = credential.rights;
   const [user, setUser] = useState<IUser>(currentUser!);
+  const [editMode, setEditMode] = useState<boolean>(false);
 
-  function hendleSubmit() {}
-
-  function handleChangeSelect(event: SelectChangeEvent) {
-    setUser({ ...user, role: event.target.value as tRole });
+  function toggleEditMode() {
+    setEditMode(!editMode);
   }
 
   const handleChangeInput =
@@ -37,97 +27,98 @@ export default function ProfileBody(): JSX.Element {
       setUser({ ...user, [prop]: event.target.value });
     };
 
+  function handleUpdate() {
+    if (editMode) {
+      if (user.name === currentUser?.name) return;
+      const userSend: IUserUpdate = {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      };
+      dispatch(userPut(userSend));
+    } else {
+      setUser(currentUser!);
+    }
+    toggleEditMode();
+  }
+
+  function handleReset() {
+    const newPassword: string = Math.random().toString(36).substring(2, 9);
+    const userSend: IUserUpdate = {
+      id: user.id,
+      password: newPassword,
+    };
+    dispatch(userPut(userSend));
+    window.open(
+      `mailto:${user.email}?subject="E commerce website. New password"&body="New password: ${newPassword}"`
+    );
+    console.log(newPassword);
+  }
+
   return (
     <>
       {!user ? (
-        <p>Loading</p>
+        <Typography color="primary">Loading...</Typography>
       ) : (
-        <Box
-          component="form"
-          onSubmit={hendleSubmit}
-          display="flex"
-          padding="2rem"
-          gap="1rem"
-          justifyContent="center"
-        >
-          <Box role="avatar">
-            <img
-              src="https://api.lorem.space/image/face?w=640&h=480&r=4600"
-              width="400"
-              alt={user.name}
-            />
-          </Box>
-          <Box display="flex" flexDirection="column" gap="1rem" margin="1rem">
-            <TextField
-              required
-              type="text"
-              label="Name"
-              value={user.name}
-              onChange={handleChangeInput("name")}
-            />
-            <TextField
-              required
-              disabled={!rights.users.create}
-              type="email"
-              label="Email"
-              value={user.email}
-              onChange={handleChangeInput("email")}
-            />
-            <TextField
-              required
-              type="password"
-              label="Password"
-              value={user.password}
-              onChange={handleChangeInput("password")}
-            />
-            <TextField
-              required
-              type="password"
-              label="Repeat the password"
-              //value={user.password}
-              //onChange={handleChangeInput("password")}
-            />
-          </Box>
-          <Box display="flex" flexDirection="column" gap="1rem" margin="1rem">
-            <TextField
-              required
-              disabled={!rights.users.create}
-              type="number"
-              label="User Id"
-              value={user.id}
-              onChange={handleChangeInput("id")}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="user_role">Role * </InputLabel>
-              <Select
+        <Box>
+          {editMode ? (
+            <Typography variant="h5" color="error">
+              Edit your profile
+            </Typography>
+          ) : (
+            <Typography variant="h5" color="primary">
+              View your profile
+            </Typography>
+          )}
+          <Box display="flex" padding="2rem" gap="1rem" justifyContent="center">
+            <Box role="avatar">
+              <img
+                src="https://api.lorem.space/image/face?w=640&h=480&r=4600"
+                width="400"
+                alt={user.name}
+              />
+            </Box>
+            <Box display="flex" flexDirection="column" gap="1rem" margin="1rem">
+              <TextField
                 required
-                sx={{ p: "0 2.5rem" }}
-                id="user_role"
-                value={user.role}
-                label="Role"
-                onChange={handleChangeSelect}
-                disabled={!rights.users.create}
+                type="text"
+                label="Name"
+                disabled={!editMode}
+                value={user.name}
+                onChange={handleChangeInput("name")}
+              />
+              <TextField
+                required
+                type="email"
+                label="Email"
+                disabled={!editMode}
+                value={user.email}
+                onChange={handleChangeInput("email")}
+              />
+              <Button
+                variant="contained"
+                sx={{ p: "1rem" }}
+                onClick={handleUpdate}
               >
-                <MenuItem value="customer">customer</MenuItem>
-                <MenuItem value="admin">admin</MenuItem>
-              </Select>
-            </FormControl>
-
-            <Button disabled={!rights.users.create}>Create</Button>
-            <Button disabled={!rights.users.update}>Update</Button>
+                {editMode ? "Update" : "Edit profile"}
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ p: "1rem" }}
+                onClick={handleReset}
+              >
+                reset password
+              </Button>
+            </Box>
           </Box>
         </Box>
       )}
-
-      <Box component="div">
-        {!users.length || !rights.users.getAll
-          ? ""
-          : users.map(function (u: IUser) {
-              return <p>{u.name}</p>;
-            })}
+      <Box
+        component="div"
+        sx={{ display: rights.users.getAll ? "flex" : "none" }}
+        justifyContent="center"
+      >
+        <ProfileBodyUsers />
       </Box>
     </>
   );

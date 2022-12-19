@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 import { IProductCart } from "../../types/ICartState";
 
@@ -43,7 +43,7 @@ export default function CartBodySummury(props: IProductCart[][]): JSX.Element {
       </Box>
       <Box width="20%">
         <Typography variant="h5" component="div" color="primary">
-          Total items: {cnt}
+          Total items: {cnt.toLocaleString('fi-Fi')}
         </Typography>
       </Box>
       <Box width="20%"></Box>
