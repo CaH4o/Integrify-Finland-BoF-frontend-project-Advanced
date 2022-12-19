@@ -9,6 +9,10 @@ import {
 } from "../types/ICredential";
 
 const lsCrdName: string = "otiv1ecomertialsitetokenforuserinlocalstorage";
+const urls: { [key: string]: string } = {
+  login: "https://api.escuelajs.co/api/v1/auth/login",
+  profile: "https://api.escuelajs.co/api/v1/auth/profile",
+};
 
 export const credentialPostGet = createAsyncThunk(
   "credentialPost",
@@ -16,10 +20,7 @@ export const credentialPostGet = createAsyncThunk(
     let jwtToken: ICredential = getLocalCredential();
 
     if (credential) {
-      const response = await axios.post(
-        "https://api.escuelajs.co/api/v1/auth/login",
-        credential
-      );
+      const response = await axios.post(urls.login, credential);
       if (response.status < 400) {
         jwtToken = response.data;
         setLocalCredential(jwtToken.access_token);
@@ -29,14 +30,11 @@ export const credentialPostGet = createAsyncThunk(
     }
 
     if (jwtToken.access_token) {
-      const response = await axios.get(
-        "https://api.escuelajs.co/api/v1/auth/profile",
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken.access_token}`,
-          },
-        }
-      );
+      const response = await axios.get(urls.profile, {
+        headers: {
+          Authorization: `Bearer ${jwtToken.access_token}`,
+        },
+      });
       if (response.status < 400) {
         return response.data;
       } else {

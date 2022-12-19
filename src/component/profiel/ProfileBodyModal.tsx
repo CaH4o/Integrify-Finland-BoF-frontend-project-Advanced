@@ -14,8 +14,8 @@ import UpdateIcon from "@mui/icons-material/Update";
 
 import { IUser, IUserUpdate } from "../../types/IUser";
 import { tRole } from "../../types/ICredential";
-import { useAppDispatch } from "../../hooks/reduxHooks";
-import { userPut } from "../../api/usersWorker";
+
+import { userUpdate } from "../../api/usersWorker";
 
 const style = {
   position: "absolute" as "absolute",
@@ -32,7 +32,6 @@ const style = {
 };
 
 export default function ProfileBodyModal(props: IUser): JSX.Element {
-  const dispatch = useAppDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const [user, setUser] = useState<IUser>(props);
 
@@ -66,8 +65,11 @@ export default function ProfileBodyModal(props: IUser): JSX.Element {
     if (props.name !== user.name) userSend.name = user.name;
     if (props.role !== user.role) userSend.role = user.role;
 
-    dispatch(userPut(userSend));
-    console.log(userSend);
+    try {
+      userUpdate(userSend);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

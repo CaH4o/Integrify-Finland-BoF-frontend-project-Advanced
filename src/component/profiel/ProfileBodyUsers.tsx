@@ -15,8 +15,8 @@ import LockResetIcon from "@mui/icons-material/LockReset";
 import { IUser, IUserUpdate } from "../../types/IUser";
 import { IProfileColumn as IColumn } from "../../types/ITables";
 import { tRight } from "../../types/ICredential";
-import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { userPut } from "../../api/usersWorker";
+import { useAppSelector } from "../../hooks/reduxHooks";
+import { userUpdate } from "../../api/usersWorker";
 import ProfileBodyModal from "./ProfileBodyModal";
 
 const columns: IColumn[] = [
@@ -40,7 +40,6 @@ const columns: IColumn[] = [
 ];
 
 export default function ProfileBodyUsers(): JSX.Element {
-  const dispatch = useAppDispatch();
   const rights: tRight = useAppSelector(function (state) {
     return state.credential.rights;
   });
@@ -65,11 +64,16 @@ export default function ProfileBodyUsers(): JSX.Element {
       id: user.id,
       password: newPassword,
     };
-    dispatch(userPut(userSend));
+
+    try {
+      userUpdate(userSend);
+    } catch (error) {
+      console.log(error);
+    }
+
     window.open(
       `mailto:${user.email}?subject="E commerce website. New password"&body="New password: ${newPassword}"`
     );
-    console.log(newPassword);
   }
 
   return (

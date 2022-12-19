@@ -17,18 +17,17 @@ export const usersGet = createAsyncThunk("usersGet", async function () {
   }
 });
 
-export const userPut = createAsyncThunk(
-  "userUpdate",
-  async function (user: IUserUpdate) {
-    const response = await axios.put(urls.users + user.id.toString(), user);
+export const userPut = createAsyncThunk("userUpdate", userUpdate);
 
-    if (response.status < 400) {
-      return response.data;
-    } else {
-      throw new Error(response.status + " " + response.statusText);
-    }
+export async function userUpdate(user: IUserUpdate) {
+  const response = await axios.put(urls.users + user.id.toString(), user);
+
+  if (response.status < 400) {
+    return response.data;
+  } else {
+    throw new Error(response.status + " " + response.statusText);
   }
-);
+}
 
 export async function createUser(user: IUser) {
   const response = await axios.post(urls.users, user);
