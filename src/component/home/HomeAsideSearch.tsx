@@ -4,7 +4,7 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { productsSearch, productUpdatePresent, productReset } from "../../redux/reducers/products";
+import { productsSearch, productUpdatePresent } from "../../redux/reducers/products";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",

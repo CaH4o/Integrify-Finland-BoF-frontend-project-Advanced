@@ -1,6 +1,7 @@
 {
   "name": "frontend-advanced",
   "version": "0.1.0",
+  "homepage": "https://cah4o.github.io/bof-frontend-project-advanced",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -27,7 +28,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +52,8 @@
   },
   "devDependencies": {
     "@redux-devtools/core": "^3.13.1",
+    "gh-pages": "^4.0.0",
+    "netlify-cli": "^12.4.0",
     "typescript": "^4.9.3"
   }
 }

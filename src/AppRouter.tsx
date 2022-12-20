@@ -33,7 +33,7 @@ export default function AppRouter(): JSX.Element {
       },
     ],
     {
-      basename: "", //oti_v1
+      basename: "/bof-frontend-project-advanced",
     }
   );
 
