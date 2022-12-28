@@ -107,7 +107,7 @@ export default function HomeCard(params: IPHomeCard): JSX.Element {
           <ShoppingCartIcon />
         </Button>
         <Link
-          to={`product/${product.id}`}
+          to={product.id.toString()}
           style={{ color: "inherit", textDecoration: "inherit" }}
         >
           <Button size="small">Discription</Button>

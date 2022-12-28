@@ -1,52 +1,38 @@
 import { useEffect } from "react";
-import { Box, Stack } from "@mui/material";
-
-import { useAppDispatch } from "../hooks/reduxHooks";
-import { categoriesGet, productsGet } from "../api/productsWorker";
-import Footer from "../component/footer/Footer";
-import HomeBody from "../component/home/HomeBody";
-import Header from "../component/header/Header";
-import HomeAside from "../component/home/HomeAside";
-import HomeLinearProgress from "../component/home/HomeLinearProgress";
+import { useNavigate } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
 export default function HomePage() {
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(function () {
-    dispatch(productsGet(""));
-    dispatch(categoriesGet());
-  }, []);
+    const redirect = setTimeout(function () {
+      navigate("../products");
+    }, 123000);
+
+    return () => {
+      clearTimeout(redirect);
+    };
+  });
 
   return (
-    <Stack>
-      <Box
-        margin="80px 0 90px 0"
-        position="relative"
-        width="100%"
-        minHeight="80vh"
-        sx={{ backgroundColor: "background.default" }}
-        display="flex"
-      >
-        <Box
-          width="15%"
-          position="fixed" top="80"
-          padding="1rem 0"
-          bgcolor="secondary.main"
-          minHeight="78vh"
-        >
-          <HomeAside />
-        </Box>
-        <Box width="85%" marginLeft="15%">
-          <HomeBody />
-        </Box>
-      </Box>
-      <Box position="fixed" top="0" overflow="hidden" width="100%">
-        <Header />
-        <HomeLinearProgress />
-      </Box>
-      <Box position="fixed" bottom="0" overflow="hidden" width="100%">
-        <Footer />
-      </Box>
-    </Stack>
+    <Box
+      display="flex"
+      flexDirection="column"
+      height="100vh"
+      justifyContent="center"
+      bgcolor="#121212"
+      color="text.secondary"
+    >
+      <Typography variant="h2" margin="3rem">
+        Front-end Project Advanced
+      </Typography>
+      <Typography variant="body1" fontSize="2rem">
+        You will redirect on Products in 3 seconds
+      </Typography>
+      <Typography variant="body2" fontSize="2rem">
+        by Oleksandr Tertyshnyk
+      </Typography>
+    </Box>
   );
 }

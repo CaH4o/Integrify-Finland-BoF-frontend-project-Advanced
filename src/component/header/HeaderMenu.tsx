@@ -82,7 +82,6 @@ export default function HeaderMenu(): JSX.Element {
         </IconButton>
       </Box>
       {renderMobileMenu}
-      {/*      {renderMenu} */}
     </div>
   );
 }

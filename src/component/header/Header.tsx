@@ -10,7 +10,7 @@ export default function Header(): JSX.Element {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Link to=".." style={{ color: "inherit", textDecoration: "inherit" }}>
+          <Link to="/products" style={{ color: "inherit", textDecoration: "inherit" }}>
             <IconButton
               size="large"
               edge="start"

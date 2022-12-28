@@ -1,9 +1,10 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
+import ProductPage from "./pages/ProductPage";
+import ProductsPage from "./pages/ProductsPage";
 import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage";
-import ProductPage from "./pages/ProductPage";
 import ErrorPage from "./pages/ErrorPage";
 
 export default function AppRouter(): JSX.Element {
@@ -18,18 +19,28 @@ export default function AppRouter(): JSX.Element {
             element: <HomePage />,
           },
           {
-            path: "product/:id",
-            element: <ProductPage />,
+            path: "products",
+            children: [
+              {
+                index: true,
+                element: <ProductsPage />,
+              },
+
+              {
+                path: ":id",
+                element: <ProductPage />,
+              },
+            ],
+          },
+          {
+            path: "cart",
+            element: <CartPage />,
+          },
+          {
+            path: "profile",
+            element: <ProfilePage />,
           },
         ],
-      },
-      {
-        path: "/profile",
-        element: <ProfilePage />,
-      },
-      {
-        path: "/cart",
-        element: <CartPage />,
       },
     ],
     {
