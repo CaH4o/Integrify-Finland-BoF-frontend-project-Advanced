@@ -1,27 +1,31 @@
 import { useEffect } from "react";
+import { Box, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
 
-import { useAppDispatch } from "../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 import { categoriesGet, productsGet } from "../api/productsWorker";
 import Header from "../component/header/Header";
 import ProductBody from "../component/product/ProductBody";
 import Footer from "../component/footer/Footer";
-import { Box, Stack } from "@mui/material";
 
 export default function ProductPage(): JSX.Element {
   const id: string = useParams().id || "";
   const dispatch = useAppDispatch();
+  const rights = useAppSelector(function (state) {
+    return state.credential.rights.products;
+  });
+  const isAdmin: boolean = rights.update || rights.create;
 
   useEffect(
     function () {
       dispatch(productsGet(id));
-      dispatch(categoriesGet());
+      if(isAdmin) dispatch(categoriesGet());
     },
     [id]
   );
 
   return (
-    <Stack >
+    <Stack>
       <Box
         margin="80px 0"
         position="relative"

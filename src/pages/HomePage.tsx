@@ -7,13 +7,13 @@ export default function HomePage() {
 
   useEffect(function () {
     const redirect = setTimeout(function () {
-      navigate("../products");
-    }, 123000);
+      navigate("./products");
+    }, 3000);
 
     return () => {
       clearTimeout(redirect);
     };
-  });
+  },);
 
   return (
     <Box
