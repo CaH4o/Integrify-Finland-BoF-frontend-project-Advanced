@@ -16,7 +16,6 @@ The final front-end task under the BOF program. The goal - to create an e-commer
 The site consists of several pages, showing all products, a specific selected product, a shopping cart for selected products, and a user profile. To move to addresses without reloading the page and to redirection it used a React Router (AppRouter.ts).
 Reducers and the global storag were implemented to work with products and manipulate them. Products can be sorted, categorized, added to cart or liked. To store data when reloading the page, a subscription and pre-loading of data was implemented by working with the local store. Products are featched by axios, using the REST API. Also REST API is used for user registration and authorization. If the user is registered, he can get to the profile page. Workers for products, users and credential  were created to work with API and programm. Credential worker is responsible for authorizing the user and rights. For example, if you log in as an admin, you can view all users on the profile page or edit the product. There are two mods, dark and light, and the whole design and styles are fired up using Material UI.
 
-
 ## Requirement from the acadamy:
 1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
 2. Create at lease 4 pages (can be more if you want): Home page, product page,

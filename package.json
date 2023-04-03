@@ -22,6 +22,8 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "save-dev": "^0.0.1-security",
+    "ts-jest": "^29.1.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -55,5 +57,10 @@
     "gh-pages": "^4.0.0",
     "netlify-cli": "^12.4.0",
     "typescript": "^4.9.3"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!(axios|react-day-picker)/)"
+    ]
   }
 }
