@@ -62,7 +62,8 @@ describe("Suite Credantioal reducer", function () {
       email: "new@mail.com",
       name: "New",
       password: "NewPassword",
-      avatar: "https://www.rd.com/wp-content/uploads/2019/09/GettyImages-621924830-scaled.jpg?resize=768,549",
+      avatar:
+        "https://www.rd.com/wp-content/uploads/2019/09/GettyImages-621924830-scaled.jpg?resize=768,549",
       role: "customer",
     };
     await createUser(newUser);
@@ -71,17 +72,19 @@ describe("Suite Credantioal reducer", function () {
       password: "NewPassword",
     };
     await store.dispatch(credentialPostGet(cradentoal));
-    const id:number = store.getState().credenitalsReducer.user!.id;
+    const id: number = store.getState().credenitalsReducer.user!.id;
     const updateUser: IUserUpdate = {
       id,
       name: "Updated",
       email: "updated2@mail.com",
       password: "UpdatePassw0rd",
-    }
+    };
     await store.dispatch(userPut(updateUser));
     expect(store.getState().credenitalsReducer.user!.id).toBe(id);
     expect(store.getState().credenitalsReducer.user!.name).toBe("Updated");
-    expect(store.getState().credenitalsReducer.rights.user.openProfile).toBe(true);
+    expect(store.getState().credenitalsReducer.rights.user.openProfile).toBe(
+      true
+    );
     expect(store.getState().credenitalsReducer.rights.user.update).toBe(true);
     expect(store.getState().credenitalsReducer.error).toBe(false);
     expect(store.getState().credenitalsReducer.loading).toBe(false);
