@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import { IProduct } from "../types/IProduct";
+
 import productsReducer from "./reducers/products";
 import themesReducer from "./reducers/themes";
 import credenitalsReducer from "./reducers/credenital";
