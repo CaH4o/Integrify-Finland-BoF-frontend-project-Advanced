@@ -2,7 +2,7 @@
 Front-end Project Advanced "E-commerce website".
 
 ## Link to the demo: 
-[https://cah4o.github.io/bof-frontend-project-advanced/](https://cah4o.github.io/bof-frontend-project-advanced/) 
+[https://cah4o.github.io/Integrify-Finland-BoF-frontend-project-Advanced/](https://cah4o.github.io/Integrify-Finland-BoF-frontend-project-Advanced/)
 
 ## Tech stack: 
 - HTML;
