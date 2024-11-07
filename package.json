@@ -1,7 +1,7 @@
 {
   "name": "frontend-advanced",
   "version": "0.1.0",
-  "homepage": "https://cah4o.github.io/bof-frontend-project-advanced",
+  "homepage": "https://cah4o.github.io/Integrify-Finland-BoF-frontend-project-Advanced/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
